@@ -1,27 +1,24 @@
 const express = require('express');
 const cors = require('cors');
 const colors = require('colors');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const { errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./config/db');
 const path = require('path');
 
 // Cargar variables de entorno antes que todo
-dotenv.config({ path: path.join(__dirname, '../.env') });
+// dotenv.config({ path: path.join(__dirname, '../.env') });
+
+// Conectar a la base de datos
+connectDB();
 
 // Inicializar Express
 const app = express();
 
 // Middleware básico
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Conectar a la base de datos
-connectDB();
 
 // Rutas
 app.use('/api/students', require('./routes/studentRoutes'));
