@@ -5,20 +5,20 @@ const User = require('../models/userModel');
 
 // @desc    Register new user
 // @route   POST /api/users
-// @access  Private/Admin
+// @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, role, assignedGym } = req.body;
+  const { name, email, password, role = 'admin', assignedGym = 'Villas del Parque' } = req.body;
 
-  if (!name || !email || !password || !role || !assignedGym) {
+  if (!name || !email || !password) {
     res.status(400);
-    throw new Error('Please fill in all fields');
+    throw new Error('Por favor llena los campos requeridos');
   }
 
   // Check if user exists
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    throw new Error('El usuario ya existe');
   }
 
   // Hash password
@@ -45,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error('Invalid user data');
+    throw new Error('Datos de usuario inválidos');
   }
 });
 
@@ -68,8 +68,8 @@ const loginUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    res.status(400);
-    throw new Error('Invalid credentials');
+    res.status(401);
+    throw new Error('Credenciales inválidas');
   }
 });
 
@@ -77,20 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id);
-
-  if (user) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      assignedGym: user.assignedGym,
-    });
-  } else {
-    res.status(404);
-    throw new Error('User not found');
-  }
+  res.status(200).json(req.user);
 });
 
 // Generate JWT

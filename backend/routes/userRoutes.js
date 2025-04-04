@@ -7,7 +7,8 @@ const {
 } = require('../controllers/userController');
 const { protect } = require('../middleware/authMiddleware');
 
-router.post('/', protect, registerUser);
+// Quitar protect del registro para poder crear el primer usuario
+router.post('/', registerUser);
 router.post('/login', loginUser);
 router.get('/profile', protect, getProfile);
 
