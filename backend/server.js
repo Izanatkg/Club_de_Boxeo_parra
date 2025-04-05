@@ -28,19 +28,21 @@ app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/sales', require('./routes/saleRoutes'));
 
 // Ruta de prueba
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Backend is working!' });
-});
+// app.get('/api/test', (req, res) => {
+//   res.json({ message: 'Backend is working!' });
+// });
 
 // Servir archivos estáticos en producción
 if (process.env.NODE_ENV === 'production') {
+  // Establecer carpeta estática
   app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-  app.get('*', (req, res) =>
-    res.sendFile(
-      path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')
-    )
-  );
+  // Cualquier ruta que no sea /api redirige al index.html
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'));
+    }
+  });
 }
 
 // Middleware de manejo de errores
@@ -49,6 +51,6 @@ app.use(errorHandler);
 const port = process.env.PORT || 5000;
 
 // Iniciar servidor
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server running on port ${port}`.yellow.bold);
 });
