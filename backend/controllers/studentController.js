@@ -25,8 +25,14 @@ const getStudents = asyncHandler(async (req, res) => {
     query.name = { $regex: search, $options: 'i' };
   }
 
-  const students = await Student.find(query).sort({ name: 1 });
-  res.json(students);
+  try {
+    const students = await Student.find(query).sort({ name: 1 });
+    console.log('Students found:', students.length);
+    res.json(students);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).json({ message: 'Error al obtener estudiantes', error: error.message });
+  }
 });
 
 // @desc    Create new student
