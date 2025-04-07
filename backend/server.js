@@ -1,13 +1,13 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const colors = require('colors');
-const dotenv = require('dotenv').config();
-const { errorHandler } = require('./middleware/errorMiddleware');
-const connectDB = require('./config/db');
-const path = require('path');
 
 // Cargar variables de entorno antes que todo
-// dotenv.config({ path: path.join(__dirname, '../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
+
+const { errorHandler } = require('./middleware/errorMiddleware');
+const connectDB = require('./config/db');
 
 // Conectar a la base de datos
 connectDB();
