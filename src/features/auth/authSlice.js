@@ -28,9 +28,16 @@ export const register = createAsyncThunk(
 // Login user
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
-    return await authService.login(user);
+    console.log('Login thunk called with:', user.email);
+    const response = await authService.login(user);
+    console.log('Login thunk success:', response);
+    return response;
   } catch (error) {
-    const message = error.response?.data?.message || error.message;
+    console.error('Login thunk error:', error);
+    const message = 
+      error.response?.data?.message ||
+      error.message ||
+      'Error al iniciar sesión';
     return thunkAPI.rejectWithValue(message);
   }
 });
