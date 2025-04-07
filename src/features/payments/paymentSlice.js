@@ -15,10 +15,19 @@ export const getPayments = createAsyncThunk(
   'payments/getAll',
   async (filters, thunkAPI) => {
     try {
+      console.log('Getting payments with filters:', filters);
       const token = thunkAPI.getState().auth.user.token;
-      return await paymentService.getPayments(token, filters);
+      console.log('Using token:', token ? 'Yes' : 'No');
+      
+      const response = await paymentService.getPayments(token, filters);
+      console.log('Payments thunk success:', response);
+      return response;
     } catch (error) {
-      const message = error.response?.data?.message || error.message;
+      console.error('Payments thunk error:', error);
+      const message = 
+        error.response?.data?.message ||
+        error.message ||
+        'Error al obtener pagos';
       return thunkAPI.rejectWithValue(message);
     }
   }

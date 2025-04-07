@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'production' ? 'https://club-de-boxeo-parra.onrender.com/api/payments/' : '/api/payments/';
+const API_URL = process.env.NODE_ENV === 'production' ? 'https://gestion-club-de-boxeo-parra.onrender.com/api/payments/' : '/api/payments/';
 
 // Get all payments
 const getPayments = async (token, filters = {}) => {
@@ -11,8 +11,23 @@ const getPayments = async (token, filters = {}) => {
     params: filters,
   };
 
-  const response = await axios.get(API_URL, config);
-  return response.data;
+  try {
+    console.log('Fetching payments with URL:', API_URL);
+    console.log('Using config:', config);
+    
+    const response = await axios.get(API_URL, config);
+    console.log('Payments response:', response.data);
+    
+    if (!response.data) {
+      console.warn('No data received from payments API');
+      return [];
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching payments:', error.response || error);
+    throw error;
+  }
 };
 
 // Create new payment
