@@ -8,30 +8,52 @@ const getStudents = asyncHandler(async (req, res) => {
   const { gym, status, search } = req.query;
   let query = {};
 
+  console.log('Get students request from user:', req.user);
+  console.log('Query params:', { gym, status, search });
+
   // Filter by gym if user is not admin
   if (req.user.role !== 'admin') {
     query.gym = req.user.assignedGym;
+    console.log('Non-admin user, filtering by gym:', req.user.assignedGym);
   } else if (gym) {
     query.gym = gym;
+    console.log('Admin user, filtering by gym:', gym);
   }
 
   // Filter by status if provided
   if (status) {
     query.status = status;
+    console.log('Filtering by status:', status);
   }
 
   // Search by name if provided
   if (search) {
     query.name = { $regex: search, $options: 'i' };
+    console.log('Searching by name pattern:', search);
   }
 
+  console.log('Final query:', query);
+
   try {
-    const students = await Student.find(query).sort({ name: 1 });
-    console.log('Students found:', students.length);
+    const students = await Student.find(query)
+      .select('-__v')
+      .sort({ name: 1 });
+
+    console.log(`Found ${students.length} students`);
+    
+    if (!students || students.length === 0) {
+      console.log('No students found for query');
+      return res.json([]);
+    }
+
     res.json(students);
   } catch (error) {
     console.error('Error fetching students:', error);
-    res.status(500).json({ message: 'Error al obtener estudiantes', error: error.message });
+    res.status(500).json({
+      message: 'Error al obtener estudiantes',
+      error: error.message,
+      query: query
+    });
   }
 });
 
