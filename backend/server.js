@@ -60,6 +60,8 @@ app.use(errorHandler);
 const port = process.env.PORT || 5000;
 
 // Iniciar servidor
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`.yellow.bold);
+  console.log('Environment:', process.env.NODE_ENV);
+  console.log('MongoDB URI:', process.env.MONGO_URI);
 });
