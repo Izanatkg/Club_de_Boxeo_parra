@@ -12,11 +12,26 @@ const getStudents = async (token, filters = {}) => {
   };
 
   try {
+    console.log('Fetching students with URL:', API_URL);
+    console.log('Using config:', config);
+    
     const response = await axios.get(API_URL, config);
-    return Array.isArray(response.data) ? response.data : [];
+    console.log('Students response:', response.data);
+    
+    if (!response.data) {
+      console.warn('No data received from students API');
+      return [];
+    }
+    
+    if (!Array.isArray(response.data)) {
+      console.warn('Students data is not an array:', response.data);
+      return [];
+    }
+    
+    return response.data;
   } catch (error) {
-    console.error('Error fetching students:', error);
-    return [];
+    console.error('Error fetching students:', error.response || error);
+    throw error;
   }
 };
 
