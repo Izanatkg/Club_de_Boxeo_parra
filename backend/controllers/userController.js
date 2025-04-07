@@ -55,21 +55,43 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // Check for user email
-  const user = await User.findOne({ email });
+  console.log('Login attempt for email:', email);
 
-  if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      assignedGym: user.assignedGym,
-      token: generateToken(user._id),
-    });
-  } else {
+  try {
+    // Check for user email
+    const user = await User.findOne({ email });
+    console.log('User found:', user ? 'Yes' : 'No');
+
+    if (!user) {
+      console.log('User not found');
+      res.status(401);
+      throw new Error('Credenciales inválidas');
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch ? 'Yes' : 'No');
+
+    if (isMatch) {
+      const token = generateToken(user._id);
+      console.log('Token generated successfully');
+
+      res.json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        assignedGym: user.assignedGym,
+        token,
+      });
+    } else {
+      console.log('Invalid password');
+      res.status(401);
+      throw new Error('Credenciales inválidas');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
     res.status(401);
-    throw new Error('Credenciales inválidas');
+    throw new Error('Error al iniciar sesión: ' + error.message);
   }
 });
 
