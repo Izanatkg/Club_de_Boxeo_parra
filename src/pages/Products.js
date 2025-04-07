@@ -10,6 +10,7 @@ import Layout from '../components/common/Layout';
 import DataTable from '../components/common/DataTable';
 import ProductForm from '../components/products/ProductForm';
 import StockForm from '../components/products/StockForm';
+import SaleDialog from '../components/products/SaleDialog';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 import {
   Box,
@@ -27,6 +28,7 @@ import {
 import {
   Add as AddIcon,
   Inventory as InventoryIcon,
+  ShoppingCart as ShoppingCartIcon,
 } from '@mui/icons-material';
 
 function Products() {
@@ -34,6 +36,7 @@ function Products() {
   const [openStockForm, setOpenStockForm] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openSaleDialog, setOpenSaleDialog] = useState(false);
   const [filters, setFilters] = useState({
     search: '',
     type: '',
@@ -75,6 +78,16 @@ function Products() {
   const handleCloseStockForm = () => {
     setSelectedProduct(null);
     setOpenStockForm(false);
+  };
+
+  const handleOpenSaleDialog = (product) => {
+    setSelectedProduct(product);
+    setOpenSaleDialog(true);
+  };
+
+  const handleCloseSaleDialog = () => {
+    setSelectedProduct(null);
+    setOpenSaleDialog(false);
   };
 
   const handleDelete = (product) => {
@@ -158,19 +171,30 @@ function Products() {
     },
     {
       field: 'actions',
-      headerName: 'Inventario',
-      minWidth: 100,
+      headerName: 'Acciones',
+      minWidth: 160,
       sortable: false,
       renderCell: (params) => (
-        <IconButton
-          color="primary"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleOpenStockForm(params.row);
-          }}
-        >
-          <InventoryIcon />
-        </IconButton>
+        <Box>
+          <IconButton
+            color="primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpenStockForm(params.row);
+            }}
+          >
+            <InventoryIcon />
+          </IconButton>
+          <IconButton
+            color="success"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpenSaleDialog(params.row);
+            }}
+          >
+            <ShoppingCartIcon />
+          </IconButton>
+        </Box>
       ),
     },
   ];
@@ -252,6 +276,12 @@ function Products() {
         message="¿Está seguro que desea eliminar este producto? Esta acción no se puede deshacer."
         onConfirm={handleConfirmDelete}
         onClose={() => setOpenConfirm(false)}
+      />
+
+      <SaleDialog
+        open={openSaleDialog}
+        onClose={handleCloseSaleDialog}
+        product={selectedProduct}
       />
     </Layout>
   );
