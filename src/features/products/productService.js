@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'production' ? 'https://club-de-boxeo-parra.onrender.com/api/products/' : '/api/products/';
+const API_URL = process.env.NODE_ENV === 'production' ? 'https://gestion-club-de-boxeo-parra.onrender.com/api/products/' : '/api/products/';
 
 // Get all products
 const getProducts = async (token, filters = {}) => {
@@ -12,10 +12,21 @@ const getProducts = async (token, filters = {}) => {
       params: filters,
     };
 
+    console.log('Fetching products with URL:', API_URL);
+    console.log('Using config:', config);
+    
     const response = await axios.get(API_URL, config);
+    console.log('Products response:', response.data);
+    
+    if (!response.data) {
+      console.warn('No data received from products API');
+      return [];
+    }
+    
     return response.data;
   } catch (error) {
-    throw new Error(`Error fetching products: ${error.message}`);
+    console.error('Error fetching products:', error.response || error);
+    throw error;
   }
 };
 
