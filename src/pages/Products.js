@@ -185,15 +185,18 @@ function Products() {
           >
             <InventoryIcon />
           </IconButton>
-          <IconButton
+          <Button
+            variant="contained"
             color="success"
+            size="small"
+            startIcon={<ShoppingCartIcon />}
             onClick={(e) => {
               e.stopPropagation();
               handleOpenSaleDialog(params.row);
             }}
           >
-            <ShoppingCartIcon />
-          </IconButton>
+            VENDER
+          </Button>
         </Box>
       ),
     },
