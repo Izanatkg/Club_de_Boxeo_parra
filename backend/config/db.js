@@ -11,13 +11,19 @@ const connectDB = async () => {
     const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 10000, // Aumentado a 10 segundos
-      socketTimeoutMS: 45000, // Tiempo de espera para operaciones
-      family: 4 // Forzar IPv4
+      serverSelectionTimeoutMS: 30000, // 30 segundos
+      socketTimeoutMS: 45000, // 45 segundos
+      connectTimeoutMS: 30000, // 30 segundos
+      keepAlive: true,
+      retryWrites: true,
+      w: 'majority'
     };
 
+    // Si no hay una URI específica, usar la URI por defecto
+    const uri = process.env.MONGO_URI || 'mongodb+srv://Spacecards:G0rillaz24@cluster0.xi0cc.mongodb.net/boxingclub?retryWrites=true&w=majority&appName=Cluster0';
+
     // Intentar conectar
-    const conn = await mongoose.connect(process.env.MONGO_URI, options);
+    const conn = await mongoose.connect(uri, options);
     
     console.log('MongoDB URI:', process.env.MONGO_URI);
     console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
