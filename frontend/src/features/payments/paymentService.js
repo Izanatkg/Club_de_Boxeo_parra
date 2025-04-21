@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'production' ? 'https://gestion-club-de-boxeo-parra.onrender.com/api/payments/' : '/api/payments/';
+// Usar rutas relativas para que funcione en cualquier dominio
+const API_URL = '/api/payments/';
 
 // Get all payments
 const getPayments = async (token, filters = {}) => {

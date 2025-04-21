@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'production' ? 'https://gestion-club-de-boxeo-parra.onrender.com/api/products/' : '/api/products/';
+// Usar rutas relativas para que funcione en cualquier dominio
+const API_URL = '/api/products/';
 
 // Get all products
 const getProducts = async (token, filters = {}) => {
