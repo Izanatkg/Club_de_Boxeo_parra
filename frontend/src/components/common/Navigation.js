@@ -27,6 +27,7 @@ import {
   Logout as LogoutIcon,
   Dashboard as DashboardIcon,
   PointOfSale as PointOfSaleIcon,
+  Notifications as NotificationsIcon,
 } from '@mui/icons-material';
 
 function Navigation() {
@@ -63,11 +64,11 @@ function Navigation() {
     { title: 'Productos', path: '/products', icon: <InventoryIcon /> },
     { title: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
     { title: 'Ventas', path: '/sales', icon: <PointOfSaleIcon /> },
-    { title: 'Avisos', path: '/notices', icon: <InventoryIcon /> },
+    { title: 'Avisos', path: '/notices', icon: <NotificationsIcon /> },
   ];
 
   return (
-    <AppBar position="static" sx={{ mb: 3 }}>
+    <AppBar position="static" sx={{ mb: 3, backgroundColor: '#1976d2' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

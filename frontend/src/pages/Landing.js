@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography, Button, Container, Grid, Paper, Divider, IconButton, CircularProgress } from '@mui/material';
@@ -7,7 +7,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { getNotices } from '../features/notices/noticeSlice';
 import './Landing.css';
 
@@ -15,11 +16,11 @@ import './Landing.css';
 import heroImage from '../images/459027765_1295704515204292_8972208912016071407_n.jpg';
 import trainingImage from '../images/444990179_1216950283079716_5435413490193245865_n.jpg';
 import logoImage from '../images/logo.jpg';
+import additionalImage from '../images/450671094_1253032709471473_649126447188553062_n.jpg';
 
 // Componentes estilizados
 const HeroSection = styled(Box)(({ theme }) => ({
   height: '100vh',
-  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${heroImage})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   display: 'flex',
@@ -50,10 +51,10 @@ const NavLink = styled(Typography)(({ theme }) => ({
 }));
 
 const AdminButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main,
+  backgroundColor: '#dc004e',
   color: 'white',
   '&:hover': {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: '#b0003a',
   },
 }));
 
@@ -67,6 +68,35 @@ const NoticeCard = styled(Paper)(({ theme }) => ({
 const Landing = () => {
   const dispatch = useDispatch();
   const { notices, isLoading, isError, message } = useSelector((state) => state.notices);
+  
+  // Estado para el carrusel
+  const [activeStep, setActiveStep] = useState(0);
+  const carouselImages = [
+    { img: heroImage, label: 'Boxeo Profesional' },
+    { img: trainingImage, label: 'Entrenamiento de Calidad' },
+    { img: additionalImage, label: 'Instalaciones Modernas' },
+  ];
+  
+  const maxSteps = carouselImages.length;
+
+  const handleNext = useCallback(() => {
+    setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
+  }, [maxSteps]);
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
+  };
+  
+  // Cambiar imagen automáticamente cada 5 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      handleNext();
+    }, 5000);
+    
+    return () => {
+      clearInterval(timer);
+    };
+  }, [handleNext]);
 
   useEffect(() => {
     dispatch(getNotices());
@@ -96,31 +126,70 @@ const Landing = () => {
           </Link>
         </NavBar>
 
-        <Container>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
-              <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                BOXEO PROFESIONAL
-              </Typography>
-              <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>
-                ENTRENAMIENTO OFICIAL EN TEPIC, NAYARIT
-              </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                <Typography variant="body1" sx={{ mr: 2 }}>
-                  01/03
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <IconButton size="small" sx={{ color: 'white', mx: 1 }}>
-                    &lt;
-                  </IconButton>
-                  <IconButton size="small" sx={{ color: 'white', mx: 1 }}>
-                    &gt;
-                  </IconButton>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </Container>
+        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+          <Box
+            sx={{
+              height: '100vh',
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${carouselImages[activeStep].img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background-image 0.5s ease-in-out'
+            }}
+          >
+            <Container>
+              <Grid container spacing={2} alignItems="center" justifyContent="center">
+                <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
+                  <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                    BOXEO PROFESIONAL
+                  </Typography>
+                  <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>
+                    ENTRENAMIENTO OFICIAL EN TEPIC, NAYARIT
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Container>
+          </Box>
+          
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 50,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 2
+            }}
+          >
+            <IconButton onClick={handleBack} sx={{ color: 'white', mx: 1 }}>
+              <KeyboardArrowLeft />
+            </IconButton>
+            
+            {carouselImages.map((_, index) => (
+              <Box
+                key={index}
+                onClick={() => setActiveStep(index)}
+                sx={{
+                  width: 12,
+                  height: 12,
+                  mx: 1,
+                  borderRadius: '50%',
+                  backgroundColor: index === activeStep ? 'white' : 'rgba(255, 255, 255, 0.5)',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.3s'
+                }}
+              />
+            ))}
+            
+            <IconButton onClick={handleNext} sx={{ color: 'white', mx: 1 }}>
+              <KeyboardArrowRight />
+            </IconButton>
+          </Box>
+        </Box>
 
         <Box sx={{ position: 'absolute', bottom: 20, left: 0, right: 0, display: 'flex', justifyContent: 'center' }}>
           <IconButton sx={{ color: 'white', mx: 1 }}>

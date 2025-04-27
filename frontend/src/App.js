@@ -19,16 +19,67 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#1976d2',
+      dark: '#115293',
+      light: '#4791db',
     },
     secondary: {
       main: '#dc004e',
+      dark: '#b0003a',
+      light: '#e33371',
     },
     background: {
       default: '#f5f5f5',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#333333',
+      secondary: '#666666',
     },
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: {
+      fontWeight: 700,
+    },
+    h2: {
+      fontWeight: 700,
+    },
+    h3: {
+      fontWeight: 600,
+    },
+    h4: {
+      fontWeight: 600,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+    h6: {
+      fontWeight: 500,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 4,
+          textTransform: 'none',
+          fontWeight: 500,
+        },
+        containedPrimary: {
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        },
+        containedSecondary: {
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+        },
+      },
+    },
   },
 });
 
@@ -44,7 +95,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {user && <Navigation />}
+      {user && location.pathname !== '/' && <Navigation />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={user ? <Navigate to="/students" /> : <Login />} />
