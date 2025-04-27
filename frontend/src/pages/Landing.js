@@ -14,7 +14,7 @@ import './Landing.css';
 // Componentes estilizados
 const HeroSection = styled(Box)(({ theme }) => ({
   height: '100vh',
-  backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/images/boxing-hero.jpg")',
+  backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("images/459027765_1295704515204292_8972208912016071407_n.jpg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   display: 'flex',
@@ -73,9 +73,12 @@ const Landing = () => {
       <HeroSection>
         <NavBar>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mr: 4 }}>
-              CLUB DE BOXEO PARRA
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', mr: 4 }}>
+              <img src="images/logo.jpg" alt="Club de Boxeo Parra Logo" style={{ height: '50px', borderRadius: '50%', marginRight: '15px' }} />
+              <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
+                CLUB DE BOXEO PARRA
+              </Typography>
+            </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <NavLink variant="body1">HOME</NavLink>
               <NavLink variant="body1">ENTRENAMIENTO</NavLink>
@@ -91,10 +94,10 @@ const Landing = () => {
         <Container>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
-              <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
+              <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                 BOXEO PROFESIONAL
               </Typography>
-              <Typography variant="h5" sx={{ mb: 4 }}>
+              <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>
                 ENTRENAMIENTO OFICIAL EN TEPIC, NAYARIT
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
@@ -160,14 +163,41 @@ const Landing = () => {
         )}
       </Container>
 
+      {/* Sección de Imagen Adicional */}
+      <Box sx={{ py: 6, bgcolor: '#f5f5f5' }}>
+        <Container>
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography variant="h4" component="h2" sx={{ mb: 3, fontWeight: 'bold' }}>
+                ENTRENA COMO UN CAMPEÓN
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 4 }}>
+                En Club de Boxeo Parra ofrecemos entrenamiento profesional para todos los niveles. Desde principiantes hasta boxeadores avanzados, nuestros entrenadores certificados te ayudarán a alcanzar tus metas.
+              </Typography>
+              <Typography variant="body1">
+                Contamos con instalaciones de primer nivel, equipamiento profesional y un ambiente motivador para que des lo mejor de ti en cada entrenamiento.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
+                <img src="images/444990179_1216950283079716_5435413490193245865_n.jpg" alt="Entrenamiento de boxeo" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
       {/* Footer */}
       <Box sx={{ bgcolor: 'black', color: 'white', py: 4 }}>
         <Container>
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
-                CLUB DE BOXEO PARRA
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <img src="images/logo.jpg" alt="Club de Boxeo Parra Logo" style={{ height: '40px', borderRadius: '50%', marginRight: '10px' }} />
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                  CLUB DE BOXEO PARRA
+                </Typography>
+              </Box>
               <Typography variant="body2">
                 Entrenamiento profesional de boxeo en Tepic, Nayarit. Clases para todos los niveles y edades.
               </Typography>
