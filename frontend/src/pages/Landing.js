@@ -142,11 +142,8 @@ const Landing = () => {
             <Container>
               <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
-                  <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 2, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                  <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 4, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                     BOXEO PROFESIONAL
-                  </Typography>
-                  <Typography variant="h5" sx={{ mb: 4, textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>
-                    ENTRENAMIENTO OFICIAL EN TEPIC, NAYARIT
                   </Typography>
                 </Grid>
               </Grid>

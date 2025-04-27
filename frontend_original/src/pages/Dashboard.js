@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getProducts } from '../features/products/productSlice';
@@ -14,15 +14,6 @@ import {
   Chip,
   Button,
   Container,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -31,12 +22,6 @@ function Dashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { products } = useSelector((state) => state.products);
-  
-  // Estado para el diálogo de venta
-  const [openSaleDialog, setOpenSaleDialog] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [selectedLocation, setSelectedLocation] = useState('');
 
   useEffect(() => {
     dispatch(getProducts());
@@ -111,55 +96,27 @@ function Dashboard() {
     },
   ];
 
-  const handleAddToCart = (product) => {
-    // Encontrar ubicaciones con stock disponible
-    const stockEntries = Object.entries(product.stock || {});
-    const availableLocations = stockEntries.filter(([_, qty]) => qty > 0);
-    
-    if (availableLocations.length === 0) {
-      toast.error('No hay stock disponible');
-      return;
-    }
-    
-    // Abrir el diálogo de venta
-    setSelectedProduct(product);
-    setSelectedLocation(availableLocations[0][0]); // Seleccionar la primera ubicación por defecto
-    setQuantity(1);
-    setOpenSaleDialog(true);
-  };
-  
-  const handleCloseSaleDialog = () => {
-    setOpenSaleDialog(false);
-    setSelectedProduct(null);
-    setQuantity(1);
-    setSelectedLocation('');
-  };
-  
-  const handleSale = async () => {
+  const handleAddToCart = async (product) => {
     try {
-      if (!selectedProduct || !selectedLocation || quantity <= 0) {
-        toast.error('Por favor, complete todos los campos correctamente');
+      // Encontrar la primera ubicación con stock disponible
+      const stockEntries = Object.entries(product.stock || {});
+      const [location] = stockEntries.find(([_, qty]) => qty > 0) || [];
+
+      if (!location) {
+        toast.error('No hay stock disponible');
         return;
       }
-      
-      // Verificar que hay suficiente stock
-      const availableStock = selectedProduct.stock[selectedLocation] || 0;
-      if (quantity > availableStock) {
-        toast.error(`Solo hay ${availableStock} unidades disponibles en esta ubicación`);
-        return;
-      }
-      
+
       const saleData = {
-        productId: selectedProduct._id,
-        quantity: quantity,
-        location: selectedLocation
+        productId: product._id,
+        quantity: 1,
+        location
       };
       
       const result = await dispatch(createSale(saleData)).unwrap();
       if (result) {
         toast.success('Venta realizada con éxito');
         dispatch(getProducts());
-        handleCloseSaleDialog();
       }
     } catch (error) {
       console.error('Error al procesar venta:', error);
@@ -184,59 +141,6 @@ function Dashboard() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      {/* Diálogo de venta */}
-      <Dialog open={openSaleDialog} onClose={handleCloseSaleDialog}>
-        <DialogTitle>Realizar venta</DialogTitle>
-        <DialogContent>
-          {selectedProduct && (
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h6">{selectedProduct.name}</Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Precio: ${selectedProduct.price?.toFixed(2)}
-              </Typography>
-              
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel id="location-select-label">Ubicación</InputLabel>
-                <Select
-                  labelId="location-select-label"
-                  value={selectedLocation}
-                  label="Ubicación"
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                >
-                  {Object.entries(selectedProduct.stock || {}).map(([loc, qty]) => (
-                    qty > 0 && (
-                      <MenuItem key={loc} value={loc}>
-                        {loc} - Disponible: {qty}
-                      </MenuItem>
-                    )
-                  ))}
-                </Select>
-              </FormControl>
-              
-              <TextField
-                label="Cantidad"
-                type="number"
-                fullWidth
-                value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                InputProps={{ inputProps: { min: 1, max: selectedProduct.stock?.[selectedLocation] || 1 } }}
-                helperText={`Máximo disponible: ${selectedProduct.stock?.[selectedLocation] || 0}`}
-              />
-              
-              <Typography variant="body1" sx={{ mt: 2, fontWeight: 'bold' }}>
-                Total: ${(selectedProduct.price * quantity).toFixed(2)}
-              </Typography>
-            </Box>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseSaleDialog}>Cancelar</Button>
-          <Button onClick={handleSale} variant="contained" color="primary">
-            Confirmar venta
-          </Button>
-        </DialogActions>
-      </Dialog>
-      
       <Grid container spacing={3}>
         {/* Resumen de Productos */}
         <Grid item xs={12} md={4}>

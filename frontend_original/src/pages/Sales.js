@@ -14,38 +14,12 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Button,
-  Tooltip,
 } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
 import { getSales } from '../features/sales/salesSlice';
-import { exportToExcel, formatDate, formatCurrency } from '../utils/excelExport';
 
 function Sales() {
   const dispatch = useDispatch();
   const { sales } = useSelector((state) => state.sales);
-  
-  // Función para exportar a Excel
-  const handleExportToExcel = () => {
-    // Configurar columnas
-    const columns = [
-      { header: 'Fecha', key: 'date', width: 20, formatter: (value) => formatDate(value) },
-      { header: 'Producto', key: 'productName', width: 30 },
-      { header: 'Cantidad', key: 'quantity', width: 10 },
-      { header: 'Precio Unitario', key: 'unitPrice', width: 15, formatter: (value) => formatCurrency(value) },
-      { header: 'Total', key: 'total', width: 15, formatter: (value) => formatCurrency(value) },
-      { header: 'Ubicación', key: 'location', width: 15 },
-    ];
-    
-    // Exportar datos
-    const result = exportToExcel(sales, columns, 'Reporte_Ventas_' + new Date().toISOString().split('T')[0], 'Ventas');
-    
-    if (result) {
-      console.log('Exportación exitosa');
-    } else {
-      console.error('Error al exportar');
-    }
-  };
 
   useEffect(() => {
     dispatch(getSales());
@@ -106,21 +80,9 @@ function Sales() {
         <Grid item xs={12}>
           <Card>
             <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6">
-                  Historial de Ventas
-                </Typography>
-                <Tooltip title="Exportar a Excel">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<DownloadIcon />}
-                    onClick={handleExportToExcel}
-                  >
-                    Exportar
-                  </Button>
-                </Tooltip>
-              </Box>
+              <Typography variant="h6" gutterBottom>
+                Historial de Ventas
+              </Typography>
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>

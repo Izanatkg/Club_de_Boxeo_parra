@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Navigation from './components/common/Navigation';
+import SessionTimeout from './components/common/SessionTimeout';
 import Login from './pages/Login';
 import Students from './pages/Students';
 import Payments from './pages/Payments';
@@ -96,6 +97,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {user && location.pathname !== '/' && <Navigation />}
+      {user && <SessionTimeout />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={user ? <Navigate to="/students" /> : <Login />} />

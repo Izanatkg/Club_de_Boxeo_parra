@@ -20,12 +20,9 @@ import {
   Select,
   MenuItem,
   Grid,
-  Tooltip,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
-import DownloadIcon from '@mui/icons-material/Download';
 import { format } from 'date-fns';
-import { exportToExcel, formatDate, formatCurrency } from '../utils/excelExport';
 
 function Payments() {
   const [openForm, setOpenForm] = useState(false);
@@ -86,43 +83,6 @@ function Payments() {
       ...prev,
       [name]: value,
     }));
-  };
-  
-  // Función para exportar a Excel
-  const handleExportToExcel = () => {
-    // Configurar columnas
-    const columns = [
-      { header: 'Estudiante', key: 'student', width: 30, formatter: (value) => value?.name || 'N/A' },
-      { header: 'Monto', key: 'amount', width: 15, formatter: (value) => formatCurrency(value) },
-      { header: 'Tipo de Pago', key: 'paymentType', width: 15, formatter: (value) => {
-        const types = {
-          monthly: 'Mensual',
-          weekly: 'Semanal',
-          class: 'Clase',
-        };
-        return types[value] || value;
-      }},
-      { header: 'Método de Pago', key: 'paymentMethod', width: 15, formatter: (value) => {
-        const methods = {
-          cash: 'Efectivo',
-          card: 'Tarjeta',
-          transfer: 'Transferencia',
-        };
-        return methods[value] || value;
-      }},
-      { header: 'Fecha', key: 'paymentDate', width: 20, formatter: (value) => formatDate(value) },
-      { header: 'Gimnasio', key: 'gym', width: 15, formatter: (value) => value === 'uan' ? 'UAN' : 'Villas del Parque' },
-      { header: 'Notas', key: 'notes', width: 40 },
-    ];
-    
-    // Exportar datos
-    const result = exportToExcel(payments, columns, 'Reporte_Pagos_' + new Date().toISOString().split('T')[0], 'Pagos');
-    
-    if (result) {
-      toast.success('Reporte exportado con éxito');
-    } else {
-      toast.error('Error al exportar el reporte');
-    }
   };
 
   const columns = [
@@ -191,17 +151,7 @@ function Payments() {
               Pagos
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} sx={{ textAlign: 'right', display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-            <Tooltip title="Exportar a Excel">
-              <Button
-                variant="outlined"
-                color="primary"
-                startIcon={<DownloadIcon />}
-                onClick={handleExportToExcel}
-              >
-                Exportar
-              </Button>
-            </Tooltip>
+          <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
             <Button
               variant="contained"
               startIcon={<AddIcon />}
