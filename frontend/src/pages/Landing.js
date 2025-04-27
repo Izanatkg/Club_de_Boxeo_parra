@@ -11,10 +11,15 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { getNotices } from '../features/notices/noticeSlice';
 import './Landing.css';
 
+// Importar imágenes
+import heroImage from '../images/459027765_1295704515204292_8972208912016071407_n.jpg';
+import trainingImage from '../images/444990179_1216950283079716_5435413490193245865_n.jpg';
+import logoImage from '../images/logo.jpg';
+
 // Componentes estilizados
 const HeroSection = styled(Box)(({ theme }) => ({
   height: '100vh',
-  backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("images/459027765_1295704515204292_8972208912016071407_n.jpg")',
+  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${heroImage})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   display: 'flex',
@@ -74,7 +79,7 @@ const Landing = () => {
         <NavBar>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mr: 4 }}>
-              <img src="images/logo.jpg" alt="Club de Boxeo Parra Logo" style={{ height: '50px', borderRadius: '50%', marginRight: '15px' }} />
+              <img src={logoImage} alt="Club de Boxeo Parra Logo" style={{ height: '50px', borderRadius: '50%', marginRight: '15px' }} />
               <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
                 CLUB DE BOXEO PARRA
               </Typography>
@@ -180,7 +185,7 @@ const Landing = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box sx={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
-                <img src="images/444990179_1216950283079716_5435413490193245865_n.jpg" alt="Entrenamiento de boxeo" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                <img src={trainingImage} alt="Entrenamiento de boxeo" style={{ width: '100%', height: 'auto', display: 'block' }} />
               </Box>
             </Grid>
           </Grid>
@@ -193,7 +198,7 @@ const Landing = () => {
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <img src="images/logo.jpg" alt="Club de Boxeo Parra Logo" style={{ height: '40px', borderRadius: '50%', marginRight: '10px' }} />
+                <img src={logoImage} alt="Club de Boxeo Parra Logo" style={{ height: '40px', borderRadius: '50%', marginRight: '10px' }} />
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                   CLUB DE BOXEO PARRA
                 </Typography>

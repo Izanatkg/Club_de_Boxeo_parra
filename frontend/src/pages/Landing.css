@@ -1,5 +1,5 @@
 .hero-section {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/boxing-hero.jpg');
+  /* La imagen de fondo ahora se maneja en el componente React */
   background-size: cover;
   background-position: center;
   height: 100vh;
