@@ -29,18 +29,25 @@ function Sales() {
   // Función para exportar a Excel
   const handleExportToExcel = () => {
     // Preparar datos para exportación
-    const dataToExport = sales.map(sale => ({
-      ...sale,
-      // Asegurarnos de que el nombre del producto esté disponible
-      name: sale.product?.name || sale.productName || 'Producto sin nombre'
-    }));
+    const dataToExport = sales.map(sale => {
+      // Calcular el precio unitario si no está disponible directamente
+      const unitPrice = sale.unitPrice || (sale.total && sale.quantity ? sale.total / sale.quantity : sale.product?.price || 0);
+      
+      return {
+        ...sale,
+        // Asegurarnos de que el nombre del producto esté disponible
+        name: sale.product?.name || sale.productName || 'Producto sin nombre',
+        // Asegurarnos de que el precio unitario esté disponible
+        unitPrice: unitPrice
+      };
+    });
     
     // Configurar columnas
     const columns = [
       { header: 'Fecha', key: 'date', width: 20, formatter: (value) => formatDate(value) },
       { header: 'Producto', key: 'name', width: 30 },
       { header: 'Cantidad', key: 'quantity', width: 10 },
-      { header: 'Precio Unitario', key: 'price', width: 15, formatter: (value) => formatCurrency(value) },
+      { header: 'Precio Unitario', key: 'unitPrice', width: 15, formatter: (value) => formatCurrency(value) },
       { header: 'Total', key: 'total', width: 15, formatter: (value) => formatCurrency(value) },
       { header: 'Ubicación', key: 'location', width: 15 },
     ];
