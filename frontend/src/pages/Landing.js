@@ -71,8 +71,10 @@ const Landing = () => {
   // Estado para el carrusel
   const [activeStep, setActiveStep] = useState(0);
   const carouselImages = [
-    { img: trainingImage, label: 'Entrenamiento de Calidad' },
-    { img: additionalImage, label: 'Instalaciones Modernas' },
+    { img: trainingImage, label: 'Forjando Campeones' },
+    { img: additionalImage, label: 'Prepara tus puños. Prepara tu mente' },
+    { img: heroImage, label: 'Entrena hoy como si pelearas mañana' }
+
   ];
   
   const maxSteps = carouselImages.length;
@@ -140,8 +142,8 @@ const Landing = () => {
             <Container>
               <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
-                  <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 4, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                    {/* BOXEO PROFESIONAL */}
+                  <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 4, textShadow: '2px 2px 4px rgba(0,0,0,0.5)', color: 'white' }}>
+                    {carouselImages[activeStep].label}
                   </Typography>
                 </Grid>
               </Grid>
@@ -208,7 +210,7 @@ const Landing = () => {
           <IconButton 
             sx={{ color: 'white', mx: 1 }} 
             component="a" 
-            href="https://g.co/kgs/LUTxbKW"
+            href="https://maps.app.goo.gl/RrGNQCaE1aLp7miX7"
             target="_blank"
             rel="noopener noreferrer"
           >
