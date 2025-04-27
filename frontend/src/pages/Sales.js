@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Container,
   Grid,
@@ -27,23 +28,30 @@ function Sales() {
   
   // Función para exportar a Excel
   const handleExportToExcel = () => {
+    // Preparar datos para exportación
+    const dataToExport = sales.map(sale => ({
+      ...sale,
+      // Asegurarnos de que el nombre del producto esté disponible
+      name: sale.product?.name || sale.productName || 'Producto sin nombre'
+    }));
+    
     // Configurar columnas
     const columns = [
       { header: 'Fecha', key: 'date', width: 20, formatter: (value) => formatDate(value) },
-      { header: 'Producto', key: 'productName', width: 30 },
+      { header: 'Producto', key: 'name', width: 30 },
       { header: 'Cantidad', key: 'quantity', width: 10 },
-      { header: 'Precio Unitario', key: 'unitPrice', width: 15, formatter: (value) => formatCurrency(value) },
+      { header: 'Precio Unitario', key: 'price', width: 15, formatter: (value) => formatCurrency(value) },
       { header: 'Total', key: 'total', width: 15, formatter: (value) => formatCurrency(value) },
       { header: 'Ubicación', key: 'location', width: 15 },
     ];
     
     // Exportar datos
-    const result = exportToExcel(sales, columns, 'Reporte_Ventas_' + new Date().toISOString().split('T')[0], 'Ventas');
+    const result = exportToExcel(dataToExport, columns, 'Reporte_Ventas_' + new Date().toISOString().split('T')[0], 'Ventas');
     
     if (result) {
-      console.log('Exportación exitosa');
+      toast.success('Reporte exportado con éxito');
     } else {
-      console.error('Error al exportar');
+      toast.error('Error al exportar el reporte');
     }
   };
 
