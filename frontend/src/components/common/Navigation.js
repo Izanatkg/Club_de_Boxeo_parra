@@ -63,6 +63,7 @@ function Navigation() {
     { title: 'Productos', path: '/products', icon: <InventoryIcon /> },
     { title: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
     { title: 'Ventas', path: '/sales', icon: <PointOfSaleIcon /> },
+    { title: 'Avisos', path: '/notices', icon: <InventoryIcon /> },
   ];
 
   return (

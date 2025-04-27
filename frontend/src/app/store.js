@@ -4,6 +4,7 @@ import studentReducer from '../features/students/studentSlice';
 import paymentReducer from '../features/payments/paymentSlice';
 import productReducer from '../features/products/productSlice';
 import salesReducer from '../features/sales/salesSlice';
+import noticeReducer from '../features/notices/noticeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     payments: paymentReducer,
     products: productReducer,
     sales: salesReducer,
+    notices: noticeReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

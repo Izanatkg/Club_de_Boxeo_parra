@@ -1,0 +1,74 @@
+.hero-section {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/boxing-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.nav-link {
+  margin: 0 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  border-bottom: 2px solid white;
+}
+
+.admin-button {
+  background-color: #dc004e;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.admin-button:hover {
+  background-color: #b0003a;
+}
+
+.social-icons {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.social-icon {
+  color: white;
+  margin: 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.notice-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f5f5f5;
+  border-left: 4px solid #1976d2;
+  border-radius: 4px;
+}
+
+.footer {
+  background-color: black;
+  color: white;
+  padding: 3rem 0;
+}

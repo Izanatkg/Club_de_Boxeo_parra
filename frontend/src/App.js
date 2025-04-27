@@ -9,6 +9,9 @@ import Payments from './pages/Payments';
 import Products from './pages/Products';
 import Dashboard from './pages/Dashboard';
 import Sales from './pages/Sales';
+import Notices from './pages/Notices';
+import Landing from './pages/Landing';
+import TestNotice from './pages/TestNotice';
 import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,6 +23,12 @@ const theme = createTheme({
     secondary: {
       main: '#dc004e',
     },
+    background: {
+      default: '#f5f5f5',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   },
 });
 
@@ -27,7 +36,8 @@ function App() {
   const { user } = useSelector((state) => state.auth);
   const location = useLocation();
 
-  if (location.pathname === '/' && user) {
+  // Si el usuario está autenticado y está en la ruta raíz, redirigir a estudiantes
+  if (location.pathname === '/login' && user) {
     return <Navigate to="/students" />;
   }
 
@@ -36,21 +46,24 @@ function App() {
       <CssBaseline />
       {user && <Navigation />}
       <Routes>
-        <Route path="/" element={user ? <Navigate to="/students" /> : <Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={user ? <Navigate to="/students" /> : <Login />} />
         <Route
           path="/students"
-          element={user ? <Students /> : <Navigate to="/" />}
+          element={user ? <Students /> : <Navigate to="/login" />}
         />
         <Route
           path="/payments"
-          element={user ? <Payments /> : <Navigate to="/" />}
+          element={user ? <Payments /> : <Navigate to="/login" />}
         />
         <Route
           path="/products"
-          element={user ? <Products /> : <Navigate to="/" />}
+          element={user ? <Products /> : <Navigate to="/login" />}
         />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
-        <Route path="/sales" element={user ? <Sales /> : <Navigate to="/" />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/sales" element={user ? <Sales /> : <Navigate to="/login" />} />
+        <Route path="/notices" element={user ? <Notices /> : <Navigate to="/login" />} />
+        <Route path="/test-notice" element={user ? <TestNotice /> : <Navigate to="/login" />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </ThemeProvider>
