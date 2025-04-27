@@ -5,8 +5,7 @@ import { Box, Typography, Button, Container, Grid, Paper, Divider, IconButton, C
 import { styled } from '@mui/material/styles';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import { getNotices } from '../features/notices/noticeSlice';
@@ -72,7 +71,6 @@ const Landing = () => {
   // Estado para el carrusel
   const [activeStep, setActiveStep] = useState(0);
   const carouselImages = [
-    { img: heroImage, label: 'Boxeo Profesional' },
     { img: trainingImage, label: 'Entrenamiento de Calidad' },
     { img: additionalImage, label: 'Instalaciones Modernas' },
   ];
@@ -143,7 +141,7 @@ const Landing = () => {
               <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid item xs={12} md={8} sx={{ textAlign: 'center' }}>
                   <Typography variant="h2" component="h1" sx={{ fontWeight: 'bold', mb: 4, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                    BOXEO PROFESIONAL
+                    {/* BOXEO PROFESIONAL */}
                   </Typography>
                 </Grid>
               </Grid>
@@ -189,17 +187,32 @@ const Landing = () => {
         </Box>
 
         <Box sx={{ position: 'absolute', bottom: 20, left: 0, right: 0, display: 'flex', justifyContent: 'center' }}>
-          <IconButton sx={{ color: 'white', mx: 1 }}>
+          <IconButton 
+            sx={{ color: 'white', mx: 1 }} 
+            component="a" 
+            href="https://www.facebook.com/p/Club-de-Boxeo-Parra-R-100042942679358/?locale=es_LA"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FacebookIcon />
           </IconButton>
-          <IconButton sx={{ color: 'white', mx: 1 }}>
+          <IconButton 
+            sx={{ color: 'white', mx: 1 }} 
+            component="a" 
+            href="https://www.instagram.com/clubdeboxeoparrar/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <InstagramIcon />
           </IconButton>
-          <IconButton sx={{ color: 'white', mx: 1 }}>
-            <TwitterIcon />
-          </IconButton>
-          <IconButton sx={{ color: 'white', mx: 1 }}>
-            <YouTubeIcon />
+          <IconButton 
+            sx={{ color: 'white', mx: 1 }} 
+            component="a" 
+            href="https://g.co/kgs/LUTxbKW"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LocationOnIcon />
           </IconButton>
         </Box>
       </HeroSection>
@@ -277,16 +290,16 @@ const Landing = () => {
               <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                 CONTACTO
               </Typography>
-              <Typography variant="body2">Dirección: Av. Principal #123, Tepic, Nayarit</Typography>
-              <Typography variant="body2">Teléfono: (311) 123-4567</Typography>
-              <Typography variant="body2">Email: info@clubdboxeoparra.com</Typography>
+              <Typography variant="body2">Dirección: Cam. Viejo a La Cantera 21, Jesús García, 63173 Tepic, Nay.</Typography>
+              <Typography variant="body2">Teléfono: (311) 890-3698</Typography>
+              <Typography variant="body2">Email: clubdboxeoparra@gmail.com</Typography>
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                 HORARIO
               </Typography>
-              <Typography variant="body2">Lunes a Viernes: 6:00 AM - 10:00 PM</Typography>
-              <Typography variant="body2">Sábados: 8:00 AM - 2:00 PM</Typography>
+              <Typography variant="body2">Lunes a Viernes: 4:00 PM - 5:30 PM, 6:00 PM - 7:30 PM, 7:30 PM - 9:30 PM</Typography>
+              <Typography variant="body2">Sábados: 7:00 AM Sparring </Typography>
               <Typography variant="body2">Domingos: Cerrado</Typography>
             </Grid>
           </Grid>
