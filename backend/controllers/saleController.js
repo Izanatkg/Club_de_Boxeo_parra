@@ -33,6 +33,7 @@ const createSale = async (req, res) => {
         product: productId,
         quantity,
         total,
+        createdBy: req.user.id, // Guardar el ID del usuario que realiza la venta
       });
 
       console.log('Venta de clase creada:', sale);
@@ -76,6 +77,7 @@ const createSale = async (req, res) => {
       product: productId,
       quantity,
       total,
+      createdBy: req.user.id, // Guardar el ID del usuario que realiza la venta
     });
 
     // Actualizar stock (solo para productos que no son de tipo 'class')

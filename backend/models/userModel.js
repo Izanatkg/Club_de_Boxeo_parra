@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'instructor', 'staff'],
+      enum: ['admin', 'instructor', 'staff', 'empleado'],
       default: 'staff',
     },
     assignedGym: {

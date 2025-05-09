@@ -100,23 +100,77 @@ function App() {
       {user && <SessionTimeout />}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={user ? <Navigate to="/students" /> : <Login />} />
+        <Route path="/login" element={user ? <Navigate to={user.role === 'empleado' ? "/dashboard" : "/students"} /> : <Login />} />
         <Route
           path="/students"
-          element={user ? <Students /> : <Navigate to="/login" />}
+          element={
+            user ? 
+              (['admin', 'instructor', 'staff'].includes(user.role) ? 
+                <Students /> : 
+                <Navigate to="/dashboard" />
+              ) : 
+              <Navigate to="/login" />
+          }
         />
         <Route
           path="/payments"
-          element={user ? <Payments /> : <Navigate to="/login" />}
+          element={
+            user ? 
+              (['admin', 'instructor', 'staff', 'empleado'].includes(user.role) ? 
+                <Payments /> : 
+                <Navigate to="/dashboard" />
+              ) : 
+              <Navigate to="/login" />
+          }
         />
         <Route
           path="/products"
-          element={user ? <Products /> : <Navigate to="/login" />}
+          element={
+            user ? 
+              (['admin', 'staff'].includes(user.role) ? 
+                <Products /> : 
+                <Navigate to="/dashboard" />
+              ) : 
+              <Navigate to="/login" />
+          }
         />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/sales" element={user ? <Sales /> : <Navigate to="/login" />} />
-        <Route path="/notices" element={user ? <Notices /> : <Navigate to="/login" />} />
-        <Route path="/test-notice" element={user ? <TestNotice /> : <Navigate to="/login" />} />
+        <Route 
+          path="/dashboard" 
+          element={user ? <Dashboard /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/sales" 
+          element={
+            user ? 
+              (['admin', 'staff', 'empleado'].includes(user.role) ? 
+                <Sales /> : 
+                <Navigate to="/dashboard" />
+              ) : 
+              <Navigate to="/login" />
+          } 
+        />
+        <Route 
+          path="/notices" 
+          element={
+            user ? 
+              (['admin', 'instructor', 'staff'].includes(user.role) ? 
+                <Notices /> : 
+                <Navigate to="/dashboard" />
+              ) : 
+              <Navigate to="/login" />
+          } 
+        />
+        <Route 
+          path="/test-notice" 
+          element={
+            user ? 
+              (['admin'].includes(user.role) ? 
+                <TestNotice /> : 
+                <Navigate to="/dashboard" />
+              ) : 
+              <Navigate to="/login" />
+          } 
+        />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </ThemeProvider>

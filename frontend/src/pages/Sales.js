@@ -20,11 +20,13 @@ import {
 } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { getSales } from '../features/sales/salesSlice';
+import { getUsers } from '../features/users/userSlice';
 import { exportToExcel, formatDate, formatCurrency } from '../utils/excelExport';
 
 function Sales() {
   const dispatch = useDispatch();
   const { sales } = useSelector((state) => state.sales);
+  const { users } = useSelector((state) => state.users);
   
   // Función para exportar a Excel
   const handleExportToExcel = () => {
@@ -33,12 +35,17 @@ function Sales() {
       // Calcular el precio unitario si no está disponible directamente
       const unitPrice = sale.unitPrice || (sale.total && sale.quantity ? sale.total / sale.quantity : sale.product?.price || 0);
       
+      // Buscar el usuario que realizó la venta
+      const vendedor = users.find(user => user._id === sale.createdBy);
+      
       return {
         ...sale,
         // Asegurarnos de que el nombre del producto esté disponible
         name: sale.product?.name || sale.productName || 'Producto sin nombre',
         // Asegurarnos de que el precio unitario esté disponible
-        unitPrice: unitPrice
+        unitPrice: unitPrice,
+        // Agregar el nombre del vendedor
+        vendedor: vendedor ? vendedor.name : ''
       };
     });
     
@@ -50,6 +57,7 @@ function Sales() {
       { header: 'Precio Unitario', key: 'unitPrice', width: 15, formatter: (value) => formatCurrency(value) },
       { header: 'Total', key: 'total', width: 15, formatter: (value) => formatCurrency(value) },
       { header: 'Ubicación', key: 'location', width: 15 },
+      { header: 'Vendedor', key: 'vendedor', width: 20 },
     ];
     
     // Exportar datos
@@ -64,6 +72,7 @@ function Sales() {
 
   useEffect(() => {
     dispatch(getSales());
+    dispatch(getUsers());
   }, [dispatch]);
 
   // Calcular ventas del día
@@ -144,6 +153,7 @@ function Sales() {
                       <TableCell>Producto</TableCell>
                       <TableCell align="right">Cantidad</TableCell>
                       <TableCell align="right">Total</TableCell>
+                      <TableCell>Vendedor</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -158,6 +168,9 @@ function Sales() {
                         <TableCell align="right">{sale.quantity}</TableCell>
                         <TableCell align="right">
                           ${sale.total.toFixed(2)}
+                        </TableCell>
+                        <TableCell>
+                          {users.find(user => user._id === sale.createdBy)?.name || ''}
                         </TableCell>
                       </TableRow>
                     ))}

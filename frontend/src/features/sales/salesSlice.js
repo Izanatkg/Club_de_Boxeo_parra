@@ -6,10 +6,23 @@ export const getSales = createAsyncThunk(
   'sales/getSales',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get('/api/sales');
+      // Obtener el estado de autenticación
+      const state = thunkAPI.getState();
+      const token = state.auth.user?.token;
+      
+      // Configurar las cabeceras con el token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      
+      console.log('Obteniendo ventas con token:', token ? 'Sí' : 'No');
+      const response = await axios.get('/api/sales', config);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      console.error('Error al obtener ventas:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );
@@ -19,10 +32,24 @@ export const createSale = createAsyncThunk(
   'sales/createSale',
   async (saleData, thunkAPI) => {
     try {
-      const response = await axios.post('/api/sales', saleData);
+      // Obtener el estado de autenticación
+      const state = thunkAPI.getState();
+      const token = state.auth.user?.token;
+      
+      // Configurar las cabeceras con el token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      
+      console.log('Creando venta con token:', token ? 'Sí' : 'No');
+      console.log('Datos de venta:', saleData);
+      const response = await axios.post('/api/sales', saleData, config);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      console.error('Error al crear venta:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );

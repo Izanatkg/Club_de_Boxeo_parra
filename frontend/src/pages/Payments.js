@@ -5,6 +5,7 @@ import {
   deletePayment,
   reset,
 } from '../features/payments/paymentSlice';
+import { getUsers } from '../features/users/userSlice';
 import { toast } from 'react-toastify';
 import Layout from '../components/common/Layout';
 import DataTable from '../components/common/DataTable';
@@ -43,6 +44,7 @@ function Payments() {
   const { payments, isLoading, isError, message } = useSelector(
     (state) => state.payments
   );
+  const { users } = useSelector((state) => state.users);
 
   useEffect(() => {
     if (isError) {
@@ -55,6 +57,9 @@ function Payments() {
         gym: user.role === 'admin' ? filters.gym : user.assignedGym,
       })
     );
+    
+    // Obtener la lista de usuarios para mostrar quién registró cada pago
+    dispatch(getUsers());
 
     return () => {
       dispatch(reset());
@@ -112,6 +117,15 @@ function Payments() {
       }},
       { header: 'Fecha', key: 'paymentDate', width: 20, formatter: (value) => formatDate(value) },
       { header: 'Gimnasio', key: 'gym', width: 15, formatter: (value) => value === 'uan' ? 'UAN' : 'Villas del Parque' },
+      { header: 'Registrado por', key: 'processedBy', width: 25, formatter: (value) => {
+        // Si el valor es un objeto (populado), usar directamente su nombre
+        if (value && typeof value === 'object' && value.name) {
+          return value.name;
+        }
+        // Si es un ID, buscar el usuario correspondiente
+        const user = users.find(u => u._id === value);
+        return user ? user.name : '';
+      }},
       { header: 'Notas', key: 'notes', width: 40 },
     ];
     
@@ -131,6 +145,21 @@ function Payments() {
       headerName: 'Estudiante',
       minWidth: 200,
       valueGetter: ({ row }) => row.student?.name || 'N/A',
+    },
+    {
+      field: 'processedBy',
+      headerName: 'Registrado por',
+      minWidth: 150,
+      valueGetter: ({ row }) => {
+        // Primero intentamos obtener el nombre directamente del objeto processedBy (si está populado)
+        if (row.processedBy && typeof row.processedBy === 'object' && row.processedBy.name) {
+          return row.processedBy.name;
+        }
+        
+        // Si no está populado, buscamos el usuario por ID
+        const processor = users.find(user => user._id === row.processedBy);
+        return processor ? processor.name : '';
+      },
     },
     {
       field: 'amount',

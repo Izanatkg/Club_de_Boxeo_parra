@@ -21,6 +21,7 @@ import {
   MenuItem,
   Grid,
   Chip,
+  Paper,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { format } from 'date-fns';
@@ -194,15 +195,35 @@ function Students() {
       <Box sx={{ mb: 4 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} sm={6}>
-            <Typography variant="h4" component="h1" gutterBottom>
+            <Typography 
+              variant="h4" 
+              component="h1" 
+              gutterBottom
+              sx={{ 
+                fontWeight: 'bold',
+                color: '#1976d2',
+                fontSize: { xs: '1.8rem', sm: '2.2rem' }
+              }}
+            >
               Estudiantes
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
+          <Grid item xs={12} sm={6} sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 1, sm: 0 } }}>
             <Button
               variant="contained"
               startIcon={<AddIcon />}
               onClick={() => handleOpenForm()}
+              size="large"
+              sx={{ 
+                borderRadius: '8px',
+                padding: '10px 20px',
+                boxShadow: '0 4px 10px rgba(25, 118, 210, 0.3)',
+                fontWeight: 'bold',
+                '&:hover': {
+                  boxShadow: '0 6px 12px rgba(25, 118, 210, 0.4)',
+                  backgroundColor: '#1565c0'
+                }
+              }}
             >
               Nuevo Estudiante
             </Button>
@@ -210,50 +231,87 @@ function Students() {
         </Grid>
       </Box>
 
-      <Box sx={{ mb: 4 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
-              fullWidth
-              label="Buscar"
-              name="search"
-              value={filters.search}
-              onChange={handleFilterChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel>Estado</InputLabel>
-              <Select
-                name="status"
-                value={filters.status}
-                onChange={handleFilterChange}
-                label="Estado"
-              >
-                <MenuItem value="active">Activo</MenuItem>
-                <MenuItem value="inactive">Inactivo</MenuItem>
-                <MenuItem value="">Todos</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          {user.role === 'admin' && (
+      <Box sx={{ mb: 4, mt: 2 }}>
+        <Paper 
+          elevation={0} 
+          sx={{ 
+            p: 3, 
+            borderRadius: '12px', 
+            backgroundColor: '#f8f9fa',
+            border: '1px solid rgba(0, 0, 0, 0.08)'
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'medium', color: '#455a64' }}>
+            Filtros de búsqueda
+          </Typography>
+          <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={4}>
-              <FormControl fullWidth>
-                <InputLabel>Gimnasio</InputLabel>
+              <TextField
+                fullWidth
+                label="Buscar por nombre"
+                name="search"
+                value={filters.search}
+                onChange={handleFilterChange}
+                variant="outlined"
+                InputProps={{
+                  sx: { 
+                    borderRadius: '8px',
+                    backgroundColor: '#ffffff',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(0, 0, 0, 0.15)'
+                    }
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Estado</InputLabel>
                 <Select
-                  name="gym"
-                  value={filters.gym}
+                  name="status"
+                  value={filters.status}
                   onChange={handleFilterChange}
-                  label="Gimnasio"
+                  label="Estado"
+                  sx={{ 
+                    borderRadius: '8px',
+                    backgroundColor: '#ffffff',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgba(0, 0, 0, 0.15)'
+                    }
+                  }}
                 >
+                  <MenuItem value="active">Activo</MenuItem>
+                  <MenuItem value="inactive">Inactivo</MenuItem>
                   <MenuItem value="">Todos</MenuItem>
-                  <MenuItem value="UAN">UAN</MenuItem>
-                  <MenuItem value="Villas del Parque">Villas del Parque</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
-          )}
-        </Grid>
+            {user.role === 'admin' && (
+              <Grid item xs={12} sm={6} md={4}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel>Gimnasio</InputLabel>
+                  <Select
+                    name="gym"
+                    value={filters.gym}
+                    onChange={handleFilterChange}
+                    label="Gimnasio"
+                    sx={{ 
+                      borderRadius: '8px',
+                      backgroundColor: '#ffffff',
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'rgba(0, 0, 0, 0.15)'
+                      }
+                    }}
+                  >
+                    <MenuItem value="">Todos</MenuItem>
+                    <MenuItem value="UAN">UAN</MenuItem>
+                    <MenuItem value="Villas del Parque">Villas del Parque</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            )}
+          </Grid>
+        </Paper>
       </Box>
 
       <DataTable

@@ -102,6 +102,25 @@ const getProfile = asyncHandler(async (req, res) => {
   res.status(200).json(req.user);
 });
 
+// @desc    Get all users
+// @route   GET /api/users/all
+// @access  Private
+const getAllUsers = asyncHandler(async (req, res) => {
+  try {
+    // Solo permitir a administradores y staff obtener todos los usuarios
+    if (!['admin', 'staff'].includes(req.user.role)) {
+      res.status(403);
+      throw new Error('No tienes permiso para acceder a esta información');
+    }
+    
+    const users = await User.find().select('-password');
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+});
+
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -113,4 +132,5 @@ module.exports = {
   registerUser,
   loginUser,
   getProfile,
+  getAllUsers,
 };
