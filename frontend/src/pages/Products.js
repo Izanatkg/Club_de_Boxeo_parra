@@ -172,28 +172,12 @@ function Products() {
       ),
     },
     {
-      field: 'actions',
-      headerName: 'Acciones',
-      minWidth: 240,
+      field: 'stockActions',
+      headerName: 'Gestión',
+      minWidth: 180,
       sortable: false,
       renderCell: (params) => (
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
-          {/* Botón para editar */}
-          <IconButton
-            color="primary"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleOpenForm(params.row);
-            }}
-            size="small"
-            sx={{ 
-              backgroundColor: 'rgba(25, 118, 210, 0.08)',
-              '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.15)' }
-            }}
-          >
-            <EditIcon />
-          </IconButton>
-          
           {/* Botón para gestionar stock */}
           <IconButton
             color="info"
@@ -228,24 +212,6 @@ function Products() {
           >
             Vender
           </Button>
-          
-          {/* Botón para eliminar (solo para administradores) */}
-          {user.role === 'admin' && (
-            <IconButton
-              color="error"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(params.row);
-              }}
-              size="small"
-              sx={{ 
-                backgroundColor: 'rgba(211, 47, 47, 0.08)',
-                '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.15)' }
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          )}
         </Box>
       ),
     },
@@ -306,8 +272,8 @@ function Products() {
         rows={products}
         columns={columns}
         loading={isLoading}
-        // No pasamos onEdit ni onDelete para evitar que se añada una columna de acciones adicional
-        // ya que hemos implementado nuestra propia columna de acciones personalizada
+        onEdit={handleOpenForm}
+        onDelete={handleDelete}
       />
 
       <ProductForm
