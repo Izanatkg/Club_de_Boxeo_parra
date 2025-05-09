@@ -103,6 +103,7 @@ const getSales = async (req, res) => {
   try {
     const sales = await Sale.find()
       .populate('product', 'name price')
+      .populate('createdBy', 'name') // Añadir populate para el campo createdBy
       .sort({ date: -1 });
     res.json(sales);
   } catch (error) {

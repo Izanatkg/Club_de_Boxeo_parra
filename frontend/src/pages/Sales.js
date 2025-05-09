@@ -35,8 +35,14 @@ function Sales() {
       // Calcular el precio unitario si no está disponible directamente
       const unitPrice = sale.unitPrice || (sale.total && sale.quantity ? sale.total / sale.quantity : sale.product?.price || 0);
       
-      // Buscar el usuario que realizó la venta
-      const vendedor = users.find(user => user._id === sale.createdBy);
+      // Obtener el nombre del vendedor, ya sea desde el objeto populado o buscándolo en la lista de usuarios
+      let vendedorName = '';
+      if (sale.createdBy && typeof sale.createdBy === 'object' && sale.createdBy.name) {
+        vendedorName = sale.createdBy.name;
+      } else {
+        const vendedor = users.find(user => user._id === sale.createdBy);
+        vendedorName = vendedor ? vendedor.name : '';
+      }
       
       return {
         ...sale,
@@ -45,7 +51,7 @@ function Sales() {
         // Asegurarnos de que el precio unitario esté disponible
         unitPrice: unitPrice,
         // Agregar el nombre del vendedor
-        vendedor: vendedor ? vendedor.name : ''
+        vendedor: vendedorName
       };
     });
     
@@ -170,7 +176,10 @@ function Sales() {
                           ${sale.total.toFixed(2)}
                         </TableCell>
                         <TableCell>
-                          {users.find(user => user._id === sale.createdBy)?.name || ''}
+                          {/* Mostrar el nombre del vendedor, ya sea desde el objeto populado o buscándolo en la lista de usuarios */}
+                          {sale.createdBy && typeof sale.createdBy === 'object' && sale.createdBy.name
+                            ? sale.createdBy.name
+                            : users.find(user => user._id === sale.createdBy)?.name || ''}
                         </TableCell>
                       </TableRow>
                     ))}
