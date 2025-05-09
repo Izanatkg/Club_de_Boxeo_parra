@@ -42,7 +42,8 @@ function Dashboard() {
     dispatch(getProducts());
   }, [dispatch]);
 
-  const getStockColor = (stock) => {
+  const getStockColor = (stock, type) => {
+    if (type === 'class') return 'success'; // Las clases siempre tienen stock
     if (!stock) return 'error';
     const totalStock = Object.values(stock).reduce((a, b) => a + b, 0);
     if (totalStock === 0) return 'error';
@@ -82,12 +83,21 @@ function Dashboard() {
       headerName: 'Stock Total',
       width: 130,
       renderCell: (params) => {
+        if (params.row.type === 'class') {
+          return (
+            <Chip
+              label="N/A"
+              color="success"
+              size="small"
+            />
+          );
+        }
         const stock = params.value || {};
         const totalStock = Object.values(stock).reduce((a, b) => a + b, 0);
         return (
           <Chip
             label={totalStock}
-            color={getStockColor(stock)}
+            color={getStockColor(stock, params.row.type)}
             size="small"
           />
         );
@@ -103,7 +113,7 @@ function Dashboard() {
           size="small"
           startIcon={<AddShoppingCartIcon />}
           onClick={() => handleAddToCart(params.row)}
-          disabled={!params.row.stock || Object.values(params.row.stock).reduce((a, b) => a + b, 0) === 0}
+          disabled={params.row.type !== 'class' && (!params.row.stock || Object.values(params.row.stock).reduce((a, b) => a + b, 0) === 0)}
         >
           Vender
         </Button>
@@ -112,7 +122,16 @@ function Dashboard() {
   ];
 
   const handleAddToCart = (product) => {
-    // Encontrar ubicaciones con stock disponible
+    // Si es una clase, no necesitamos verificar stock
+    if (product.type === 'class') {
+      setSelectedProduct(product);
+      setSelectedLocation('Villas del Parque'); // Ubicación por defecto para clases
+      setQuantity(1);
+      setOpenSaleDialog(true);
+      return;
+    }
+    
+    // Para otros productos, encontrar ubicaciones con stock disponible
     const stockEntries = Object.entries(product.stock || {});
     const availableLocations = stockEntries.filter(([_, qty]) => qty > 0);
     
@@ -142,11 +161,13 @@ function Dashboard() {
         return;
       }
       
-      // Verificar que hay suficiente stock
-      const availableStock = selectedProduct.stock[selectedLocation] || 0;
-      if (quantity > availableStock) {
-        toast.error(`Solo hay ${availableStock} unidades disponibles en esta ubicación`);
-        return;
+      // Verificar que hay suficiente stock (solo para productos que no son clases)
+      if (selectedProduct.type !== 'class') {
+        const availableStock = selectedProduct.stock[selectedLocation] || 0;
+        if (quantity > availableStock) {
+          toast.error(`Solo hay ${availableStock} unidades disponibles en esta ubicación`);
+          return;
+        }
       }
       
       const saleData = {
@@ -195,23 +216,40 @@ function Dashboard() {
                 Precio: ${selectedProduct.price?.toFixed(2)}
               </Typography>
               
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel id="location-select-label">Ubicación</InputLabel>
-                <Select
-                  labelId="location-select-label"
-                  value={selectedLocation}
-                  label="Ubicación"
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                >
-                  {Object.entries(selectedProduct.stock || {}).map(([loc, qty]) => (
-                    qty > 0 && (
-                      <MenuItem key={loc} value={loc}>
-                        {loc} - Disponible: {qty}
+              {selectedProduct.type !== 'class' ? (
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id="location-select-label">Ubicación</InputLabel>
+                  <Select
+                    labelId="location-select-label"
+                    value={selectedLocation}
+                    label="Ubicación"
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                  >
+                    {Object.entries(selectedProduct.stock || {}).map(([location, qty]) => (
+                      <MenuItem 
+                        key={location} 
+                        value={location}
+                        disabled={qty <= 0}
+                      >
+                        {location} ({qty} disponibles)
                       </MenuItem>
-                    )
-                  ))}
-                </Select>
-              </FormControl>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : (
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id="location-select-label">Ubicación</InputLabel>
+                  <Select
+                    labelId="location-select-label"
+                    value={selectedLocation}
+                    label="Ubicación"
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                  >
+                    <MenuItem value="Villas del Parque">Villas del Parque</MenuItem>
+                    <MenuItem value="UAN">UAN</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
               
               <TextField
                 label="Cantidad"

@@ -181,6 +181,14 @@ function Students() {
     },
   ];
 
+  // Función para determinar si un estudiante está vencido
+  const isExpired = (nextPaymentDate) => {
+    if (!nextPaymentDate) return false;
+    const today = new Date();
+    const nextPayment = new Date(nextPaymentDate);
+    return nextPayment < today;
+  };
+
   return (
     <Layout>
       <Box sx={{ mb: 4 }}>
@@ -254,6 +262,18 @@ function Students() {
         loading={isLoading}
         onEdit={handleOpenForm}
         onDelete={handleDelete}
+        getRowClassName={(params) => isExpired(params.row.nextPaymentDate) ? 'expired-row' : ''}
+        sx={{
+          '& .expired-row': {
+            backgroundColor: '#ffebee',
+            '&:hover': {
+              backgroundColor: '#ffcdd2',
+            },
+            '& .MuiDataGrid-cell': {
+              color: '#d32f2f',
+            },
+          },
+        }}
       />
 
       <StudentForm

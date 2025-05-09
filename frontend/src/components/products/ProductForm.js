@@ -109,10 +109,21 @@ function ProductForm({ open, onClose, product = null }) {
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth required>
               <InputLabel>Tipo</InputLabel>
-              <Select name="type" value={formData.type} onChange={handleChange}>
+              <Select 
+                name="type" 
+                value={formData.type} 
+                onChange={(e) => {
+                  const newType = e.target.value;
+                  setFormData(prev => ({
+                    ...prev,
+                    type: newType
+                  }));
+                }}
+              >
                 <MenuItem value="consumable">Consumible</MenuItem>
                 <MenuItem value="equipment">Equipo</MenuItem>
                 <MenuItem value="clothing">Ropa</MenuItem>
+                <MenuItem value="class">Clase</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -142,17 +153,23 @@ function ProductForm({ open, onClose, product = null }) {
             <Typography variant="subtitle1" gutterBottom>
               Stock por ubicación
             </Typography>
-            {LOCATIONS.map((location) => (
-              <TextField
-                key={location}
-                label={location}
-                type="number"
-                value={formData.stock[location]}
-                onChange={(e) => handleStockChange(location, e.target.value)}
-                fullWidth
-                sx={{ mb: 2 }}
-              />
-            ))}
+            {formData.type !== 'class' ? (
+              LOCATIONS.map((location) => (
+                <TextField
+                  key={location}
+                  label={location}
+                  type="number"
+                  value={formData.stock[location]}
+                  onChange={(e) => handleStockChange(location, e.target.value)}
+                  fullWidth
+                  sx={{ mb: 2 }}
+                />
+              ))
+            ) : (
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Las clases no requieren control de stock
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel
