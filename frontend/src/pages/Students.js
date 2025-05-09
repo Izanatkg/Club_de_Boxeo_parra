@@ -141,31 +141,6 @@ function Students() {
       valueFormatter: ({ value }) => formatDate(value)
     },
     {
-      field: 'paymentStatus',
-      headerName: 'Estado de Pago',
-      minWidth: 150,
-      renderCell: (params) => {
-        const status = getPaymentStatus(params.row.lastPayment, params.row.nextPaymentDate);
-        let color = 'default';
-        
-        switch (status) {
-          case 'Vencido':
-            color = 'error';
-            break;
-          case 'Próximo a vencer':
-            color = 'warning';
-            break;
-          case 'Al día':
-            color = 'success';
-            break;
-          default:
-            color = 'default';
-        }
-        
-        return <Chip label={status} color={color} size="small" />;
-      }
-    },
-    {
       field: 'status',
       headerName: 'Estado',
       minWidth: 120,

@@ -29,6 +29,8 @@ import {
   Add as AddIcon,
   Inventory as InventoryIcon,
   ShoppingCart as ShoppingCartIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
 } from '@mui/icons-material';
 
 function Products() {
@@ -172,19 +174,43 @@ function Products() {
     {
       field: 'actions',
       headerName: 'Acciones',
-      minWidth: 160,
+      minWidth: 240,
       sortable: false,
       renderCell: (params) => (
-        <Box>
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+          {/* Botón para editar */}
           <IconButton
             color="primary"
             onClick={(e) => {
               e.stopPropagation();
+              handleOpenForm(params.row);
+            }}
+            size="small"
+            sx={{ 
+              backgroundColor: 'rgba(25, 118, 210, 0.08)',
+              '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.15)' }
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+          
+          {/* Botón para gestionar stock */}
+          <IconButton
+            color="info"
+            onClick={(e) => {
+              e.stopPropagation();
               handleOpenStockForm(params.row);
+            }}
+            size="small"
+            sx={{ 
+              backgroundColor: 'rgba(2, 136, 209, 0.08)',
+              '&:hover': { backgroundColor: 'rgba(2, 136, 209, 0.15)' }
             }}
           >
             <InventoryIcon />
           </IconButton>
+          
+          {/* Botón para vender */}
           <Button
             variant="contained"
             color="success"
@@ -194,9 +220,32 @@ function Products() {
               e.stopPropagation();
               handleOpenSaleDialog(params.row);
             }}
+            sx={{ 
+              borderRadius: '8px',
+              padding: '4px 8px',
+              minWidth: '80px'
+            }}
           >
-            VENDER
+            Vender
           </Button>
+          
+          {/* Botón para eliminar (solo para administradores) */}
+          {user.role === 'admin' && (
+            <IconButton
+              color="error"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(params.row);
+              }}
+              size="small"
+              sx={{ 
+                backgroundColor: 'rgba(211, 47, 47, 0.08)',
+                '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.15)' }
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
         </Box>
       ),
     },
@@ -257,8 +306,8 @@ function Products() {
         rows={products}
         columns={columns}
         loading={isLoading}
-        onEdit={handleOpenForm}
-        onDelete={handleDelete}
+        // No pasamos onEdit ni onDelete para evitar que se añada una columna de acciones adicional
+        // ya que hemos implementado nuestra propia columna de acciones personalizada
       />
 
       <ProductForm
