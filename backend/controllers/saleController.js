@@ -17,7 +17,32 @@ const createSale = async (req, res) => {
 
     console.log('Stock actual:', product.stock);
 
-    // Verificar que el producto tenga stock
+    // Si el producto es de tipo 'class', no verificamos stock
+    if (product.type === 'class') {
+      console.log('Producto de tipo clase, no se verifica stock');
+      // Usar la ubicación proporcionada o una predeterminada
+      const selectedLocation = location || 'Villas del Parque';
+      console.log('Ubicación seleccionada para clase:', selectedLocation);
+      
+      // Para productos tipo clase, no restamos stock, solo registramos la venta
+      // Calcular total
+      const total = product.price * quantity;
+
+      // Crear venta
+      const sale = await Sale.create({
+        product: productId,
+        quantity,
+        total,
+      });
+
+      console.log('Venta de clase creada:', sale);
+
+      // Devolver la venta con los datos del producto
+      const populatedSale = await Sale.findById(sale._id).populate('product', 'name price');
+      return res.status(201).json(populatedSale);
+    }
+    
+    // Para otros tipos de productos, verificar stock normalmente
     if (!product.stock || typeof product.stock.get !== 'function') {
       console.log('Error en formato de stock:', product.stock);
       return res.status(400).json({ message: 'Error en el formato del stock' });
@@ -53,7 +78,7 @@ const createSale = async (req, res) => {
       total,
     });
 
-    // Actualizar stock
+    // Actualizar stock (solo para productos que no son de tipo 'class')
     product.stock.set(selectedLocation, currentStock - quantity);
     await product.save();
 
