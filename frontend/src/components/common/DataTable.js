@@ -16,7 +16,7 @@ import {
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
-function DataTable({ rows = [], columns, loading, onDelete, onEdit }) {
+function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassName, sx = {} }) {
   // Asegurarse de que rows sea siempre un array
   const safeRows = Array.isArray(rows) ? rows : [];
   const [page, setPage] = useState(0);
@@ -65,7 +65,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit }) {
   }
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', ...sx }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader>
           <TableHead>
@@ -88,7 +88,13 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
+                  <TableRow 
+                    hover 
+                    role="checkbox" 
+                    tabIndex={-1} 
+                    key={row._id}
+                    className={getRowClassName ? getRowClassName(row) : ''}
+                  >
                     {columns.map((column) =>
                       column.hide ? null : (
                         <TableCell key={column.field}>

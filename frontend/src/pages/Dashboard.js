@@ -256,9 +256,31 @@ function Dashboard() {
                 type="number"
                 fullWidth
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                InputProps={{ inputProps: { min: 1, max: selectedProduct.stock?.[selectedLocation] || 1 } }}
-                helperText={`Máximo disponible: ${selectedProduct.stock?.[selectedLocation] || 0}`}
+                onChange={(e) => {
+                  // Permitir que el campo esté vacío temporalmente durante la edición
+                  const value = e.target.value;
+                  if (value === '') {
+                    setQuantity('');
+                  } else {
+                    const numValue = parseInt(value);
+                    if (!isNaN(numValue)) {
+                      setQuantity(numValue);
+                    }
+                  }
+                }}
+                onBlur={() => {
+                  // Al perder el foco, si el valor es vacío o menor a 1, establecer a 1
+                  if (quantity === '' || quantity < 1) {
+                    setQuantity(1);
+                  }
+                }}
+                InputProps={{ 
+                  inputProps: { 
+                    min: 1, 
+                    max: selectedProduct.type === 'class' ? 999 : (selectedProduct.stock?.[selectedLocation] || 1) 
+                  } 
+                }}
+                helperText={selectedProduct.type === 'class' ? 'Sin límite de cantidad' : `Máximo disponible: ${selectedProduct.stock?.[selectedLocation] || 0}`}
               />
               
               <Typography variant="body1" sx={{ mt: 2, fontWeight: 'bold' }}>

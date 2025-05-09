@@ -262,16 +262,17 @@ function Students() {
         loading={isLoading}
         onEdit={handleOpenForm}
         onDelete={handleDelete}
-        getRowClassName={(params) => isExpired(params.row.nextPaymentDate) ? 'expired-row' : ''}
+        getRowClassName={(row) => isExpired(row.nextPaymentDate) ? 'expired-row' : ''}
         sx={{
           '& .expired-row': {
             backgroundColor: '#ffebee',
             '&:hover': {
               backgroundColor: '#ffcdd2',
             },
-            '& .MuiDataGrid-cell': {
-              color: '#d32f2f',
-            },
+          },
+          '& .expired-row td': {
+            color: '#d32f2f',
+            fontWeight: 'bold',
           },
         }}
       />
