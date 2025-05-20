@@ -54,6 +54,59 @@ export const createSale = createAsyncThunk(
   }
 );
 
+// Update sale
+export const updateSale = createAsyncThunk(
+  'sales/updateSale',
+  async (saleData, thunkAPI) => {
+    try {
+      // Obtener el estado de autenticación
+      const state = thunkAPI.getState();
+      const token = state.auth.user?.token;
+      
+      // Configurar las cabeceras con el token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      
+      console.log('Actualizando venta con token:', token ? 'Sí' : 'No');
+      console.log('Datos de venta actualizados:', saleData);
+      const response = await axios.put(`/api/sales/${saleData._id}`, saleData, config);
+      return response.data;
+    } catch (error) {
+      console.error('Error al actualizar venta:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || { message: error.message });
+    }
+  }
+);
+
+// Delete sale
+export const deleteSale = createAsyncThunk(
+  'sales/deleteSale',
+  async (id, thunkAPI) => {
+    try {
+      // Obtener el estado de autenticación
+      const state = thunkAPI.getState();
+      const token = state.auth.user?.token;
+      
+      // Configurar las cabeceras con el token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      
+      console.log('Eliminando venta con ID:', id);
+      await axios.delete(`/api/sales/${id}`, config);
+      return id;
+    } catch (error) {
+      console.error('Error al eliminar venta:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || { message: error.message });
+    }
+  }
+);
+
 const initialState = {
   sales: [],
   isError: false,
@@ -122,6 +175,34 @@ export const salesSlice = createSlice({
         state.sales.unshift(action.payload);
       })
       .addCase(createSale.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updateSale.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateSale.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.sales = state.sales.map(sale => 
+          sale._id === action.payload._id ? action.payload : sale
+        );
+      })
+      .addCase(updateSale.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(deleteSale.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteSale.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.sales = state.sales.filter(sale => sale._id !== action.payload);
+      })
+      .addCase(deleteSale.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

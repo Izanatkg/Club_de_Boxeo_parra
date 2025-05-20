@@ -60,7 +60,7 @@ function Navigation() {
 
   // Definir todas las páginas disponibles
   const allPages = [
-    { title: 'Estudiantes', path: '/students', icon: <GroupIcon />, roles: ['admin', 'instructor', 'staff'] },
+    { title: 'Estudiantes', path: '/students', icon: <GroupIcon />, roles: ['admin', 'instructor', 'staff', 'empleado'] },
     { title: 'Pagos', path: '/payments', icon: <PaymentsIcon />, roles: ['admin', 'instructor', 'staff', 'empleado'] },
     { title: 'Productos', path: '/products', icon: <InventoryIcon />, roles: ['admin', 'staff'] },
     { title: 'Dashboard', path: '/dashboard', icon: <DashboardIcon />, roles: ['admin', 'staff', 'empleado'] },

@@ -105,7 +105,7 @@ function App() {
           path="/students"
           element={
             user ? 
-              (['admin', 'instructor', 'staff'].includes(user.role) ? 
+              (['admin', 'instructor', 'staff', 'empleado'].includes(user.role) ? 
                 <Students /> : 
                 <Navigate to="/dashboard" />
               ) : 

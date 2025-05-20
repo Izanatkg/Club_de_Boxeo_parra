@@ -183,7 +183,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                     )}
                     
                     <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                      {onEdit && (
+                      {onEdit && !(window.location.pathname === '/students' && user.role === 'empleado') && (
                         <Button
                           variant="contained"
                           color="primary"
@@ -198,7 +198,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                           Editar
                         </Button>
                       )}
-                      {onDelete && user.role === 'admin' && (
+                      {onDelete && (user.role === 'admin' || (window.location.pathname === '/sales' && user.role === 'empleado')) && (
                         <Button
                           variant="outlined"
                           color="error"
@@ -293,7 +293,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                         }}
                       >
                         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
-                          {onEdit && (
+                          {onEdit && !(window.location.pathname === '/students' && user.role === 'empleado') && (
                             <IconButton
                               color="primary"
                               onClick={() => onEdit(row)}
@@ -306,7 +306,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                               <EditIcon />
                             </IconButton>
                           )}
-                          {onDelete && user.role === 'admin' && (
+                          {onDelete && (user.role === 'admin' || (window.location.pathname === '/sales' && user.role === 'empleado')) && (
                             <IconButton
                               color="error"
                               onClick={() => onDelete(row)}
