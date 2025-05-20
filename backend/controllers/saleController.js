@@ -112,7 +112,110 @@ const getSales = async (req, res) => {
   }
 };
 
+// @desc    Update sale
+// @route   PUT /api/sales/:id
+// @access  Private
+const updateSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity, total, notes } = req.body;
+    
+    // Verificar si la venta existe
+    const sale = await Sale.findById(id);
+    if (!sale) {
+      return res.status(404).json({ message: 'Venta no encontrada' });
+    }
+    
+    // Si se cambia la cantidad y es un producto físico (no clase), actualizar el stock
+    if (quantity !== sale.quantity) {
+      const product = await Product.findById(sale.product);
+      
+      if (product && product.type !== 'class') {
+        // Obtener la ubicación del producto (esto podría necesitar ajustes según tu modelo de datos)
+        const locations = Array.from(product.stock.keys());
+        const selectedLocation = locations[0]; // Usar la primera ubicación como ejemplo
+        
+        if (selectedLocation) {
+          const currentStock = product.stock.get(selectedLocation) || 0;
+          
+          // Devolver el stock original
+          const stockToReturn = sale.quantity;
+          
+          // Restar el nuevo stock
+          const newStock = currentStock + stockToReturn - quantity;
+          
+          // Verificar si hay suficiente stock
+          if (newStock < 0) {
+            return res.status(400).json({ message: 'Stock insuficiente para la actualización' });
+          }
+          
+          // Actualizar el stock
+          product.stock.set(selectedLocation, newStock);
+          await product.save();
+        }
+      }
+    }
+    
+    // Actualizar la venta
+    const updatedSale = await Sale.findByIdAndUpdate(
+      id,
+      { quantity, total, notes },
+      { new: true }
+    ).populate('product', 'name price').populate('createdBy', 'name');
+    
+    res.json(updatedSale);
+  } catch (error) {
+    console.error('Error en updateSale:', error);
+    res.status(500).json({ message: 'Error al actualizar la venta: ' + error.message });
+  }
+};
+
+// @desc    Delete sale
+// @route   DELETE /api/sales/:id
+// @access  Private
+const deleteSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Verificar si la venta existe
+    const sale = await Sale.findById(id);
+    if (!sale) {
+      return res.status(404).json({ message: 'Venta no encontrada' });
+    }
+    
+    // Si es un producto físico (no clase), devolver el stock
+    const product = await Product.findById(sale.product);
+    
+    if (product && product.type !== 'class') {
+      // Obtener la ubicación del producto (esto podría necesitar ajustes según tu modelo de datos)
+      const locations = Array.from(product.stock.keys());
+      const selectedLocation = locations[0]; // Usar la primera ubicación como ejemplo
+      
+      if (selectedLocation) {
+        const currentStock = product.stock.get(selectedLocation) || 0;
+        
+        // Devolver el stock
+        const newStock = currentStock + sale.quantity;
+        
+        // Actualizar el stock
+        product.stock.set(selectedLocation, newStock);
+        await product.save();
+      }
+    }
+    
+    // Eliminar la venta
+    await Sale.findByIdAndDelete(id);
+    
+    res.json({ id });
+  } catch (error) {
+    console.error('Error en deleteSale:', error);
+    res.status(500).json({ message: 'Error al eliminar la venta: ' + error.message });
+  }
+};
+
 module.exports = {
   createSale,
   getSales,
+  updateSale,
+  deleteSale
 };
