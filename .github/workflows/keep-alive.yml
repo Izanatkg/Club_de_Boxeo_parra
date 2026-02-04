@@ -1,0 +1,36 @@
+name: Keep Render App Alive
+
+on:
+  schedule:
+    # Ejecutar cada 10 minutos para mantener la app activa
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Permitir ejecución manual
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Keep Render App Alive
+      run: |
+        # Reemplaza esta URL con la URL de tu app en Render
+        RENDER_URL="https://club-boxeo-app.onrender.com/api/health"
+        
+        echo "Pinging $RENDER_URL to keep app alive..."
+        
+        # Intentar hacer ping a la app con reintentos
+        for i in {1..3}; do
+          response=$(curl -s -o /dev/null -w "%{http_code}" "$RENDER_URL")
+          
+          if [ "$response" = "200" ]; then
+            echo "✅ App is alive! Status: $response"
+            break
+          else
+            echo "❌ Attempt $i failed. Status: $response"
+            if [ $i -eq 3 ]; then
+              echo "🚨 All attempts failed!"
+              exit 1
+            fi
+            sleep 10
+          fi
+        done

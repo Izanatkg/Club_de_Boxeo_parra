@@ -38,6 +38,16 @@ app.use('/api/sales', require('./routes/saleRoutes'));
 app.use('/api/notices', require('./routes/noticeRoutes'));
 
 // Ruta de prueba
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV
+  });
+});
+
+// Ruta de prueba adicional
 // app.get('/api/test', (req, res) => {
 //   res.json({ message: 'Backend is working!' });
 // });

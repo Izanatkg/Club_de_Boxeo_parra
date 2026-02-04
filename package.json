@@ -9,9 +9,11 @@
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm install --legacy-peer-deps && cd frontend && npm install --legacy-peer-deps && npm run build",
+    "build:prod": "NODE_ENV=production npm run build",
     "install-deps": "npm install && npm run install-client",
     "install-client": "cd frontend && npm install",
-    "seed": "node backend/seeder.js"
+    "seed": "node backend/seeder.js",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",

@@ -15,8 +15,7 @@ export const getStudents = createAsyncThunk(
   'students/getAll',
   async (filters, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await studentService.getStudents(token, filters);
+      return await studentService.getStudents(filters);
     } catch (error) {
       const message = error.response?.data?.message || error.message;
       return thunkAPI.rejectWithValue(message);
@@ -29,8 +28,7 @@ export const createStudent = createAsyncThunk(
   'students/create',
   async (studentData, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await studentService.createStudent(studentData, token);
+      return await studentService.createStudent(studentData);
     } catch (error) {
       const message = error.response?.data?.message || error.message;
       return thunkAPI.rejectWithValue(message);
@@ -43,8 +41,7 @@ export const updateStudent = createAsyncThunk(
   'students/update',
   async ({ studentId, studentData }, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await studentService.updateStudent(studentId, studentData, token);
+      return await studentService.updateStudent(studentId, studentData);
     } catch (error) {
       const message = error.response?.data?.message || error.message;
       return thunkAPI.rejectWithValue(message);
@@ -57,8 +54,7 @@ export const deleteStudent = createAsyncThunk(
   'students/delete',
   async (id, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      await studentService.deleteStudent(id, token);
+      await studentService.deleteStudent(id);
       return id;
     } catch (error) {
       const message = error.response?.data?.message || error.message;

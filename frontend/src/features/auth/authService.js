@@ -1,11 +1,8 @@
-import axios from 'axios';
-
-// Usar rutas relativas para que funcione en cualquier dominio
-const API_URL = '/api/users/';
+import api from '../../utils/axiosConfig';
 
 // Register user
 const register = async (userData) => {
-  const response = await axios.post(API_URL, userData);
+  const response = await api.post('/users', userData);
 
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
@@ -17,8 +14,8 @@ const register = async (userData) => {
 // Login user
 const login = async (userData) => {
   try {
-    console.log('Attempting login with URL:', API_URL + 'login');
-    const response = await axios.post(API_URL + 'login', userData);
+    console.log('Attempting login');
+    const response = await api.post('/users/login', userData);
     console.log('Login response:', response.data);
 
     if (response.data) {

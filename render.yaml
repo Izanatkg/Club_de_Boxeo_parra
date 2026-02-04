@@ -1,0 +1,34 @@
+services:
+  # Web Service (Backend + Frontend)
+  - type: web
+    name: club-boxeo-app
+    env: node
+    plan: free
+    buildCommand: "npm run build"
+    startCommand: "npm start"
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+    disk:
+      name: club-boxeo-disk
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+
+  # PostgreSQL Database (Backup/Analytics)
+  - type: pserv
+    name: club-boxeo-db
+    env: postgres
+    plan: free
+    ipAllowList: []
+    
+databases:
+  # MongoDB Alternative (PostgreSQL for analytics)
+  - name: club-boxeo-postgres
+    plan: free
