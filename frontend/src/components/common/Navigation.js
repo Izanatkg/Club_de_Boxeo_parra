@@ -63,8 +63,8 @@ function Navigation() {
     { title: 'Estudiantes', path: '/students', icon: <GroupIcon />, roles: ['admin', 'instructor', 'staff', 'empleado'] },
     { title: 'Pagos', path: '/payments', icon: <PaymentsIcon />, roles: ['admin', 'instructor', 'staff', 'empleado'] },
     { title: 'Productos', path: '/products', icon: <InventoryIcon />, roles: ['admin', 'staff'] },
-    { title: 'Dashboard', path: '/dashboard', icon: <DashboardIcon />, roles: ['admin', 'staff', 'empleado'] },
-    { title: 'Ventas', path: '/sales', icon: <PointOfSaleIcon />, roles: ['admin', 'staff', 'empleado'] },
+    { title: 'Venta', path: '/dashboard', icon: <DashboardIcon />, roles: ['admin', 'staff', 'empleado'] },
+    { title: 'Resumen de ventas', path: '/sales', icon: <PointOfSaleIcon />, roles: ['admin', 'staff', 'empleado'] },
     { title: 'Avisos', path: '/notices', icon: <NotificationsIcon />, roles: ['admin', 'instructor', 'staff'] },
   ];
   
@@ -72,9 +72,9 @@ function Navigation() {
   const pages = allPages.filter(page => page.roles.includes(user.role));
 
   return (
-    <AppBar position="static" sx={{ mb: 3, backgroundColor: '#1976d2' }}>
+    <AppBar position="static" sx={{ mb: 3, backgroundColor: 'transparent', boxShadow: 'none' }}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ py: 1 }}>
           <Typography
             variant="h6"
             noWrap
@@ -83,12 +83,16 @@ function Navigation() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontWeight: 700,
-              color: 'inherit',
+              fontWeight: 900,
+              color: '#d4af37',
               textDecoration: 'none',
+              fontSize: '1.5rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
             }}
           >
-            Club de Boxeo
+            Club de Boxeo Parra
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -98,7 +102,7 @@ function Navigation() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{ color: '#d4af37' }}
             >
               <MenuIcon />
             </IconButton>
@@ -125,8 +129,11 @@ function Navigation() {
                   right: '0 !important',
                   marginLeft: 'auto',
                   marginRight: 'auto',
-                  borderRadius: '0 0 8px 8px',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                  borderRadius: '0 0 16px 16px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #d4af37',
+                  borderTop: 'none',
                 }
               }}
             >
@@ -138,9 +145,13 @@ function Navigation() {
                   to={page.path}
                   selected={location.pathname === page.path}
                   sx={{
-                    py: 1.5,
-                    borderLeft: location.pathname === page.path ? '4px solid #1976d2' : '4px solid transparent',
-                    backgroundColor: location.pathname === page.path ? 'rgba(25, 118, 210, 0.08)' : 'transparent',
+                    py: 2,
+                    borderLeft: location.pathname === page.path ? '4px solid #d4af37' : '4px solid transparent',
+                    backgroundColor: location.pathname === page.path ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                    color: location.pathname === page.path ? '#000000' : '#374151',
+                    '&:hover': {
+                      backgroundColor: 'rgba(212, 175, 55, 0.05)',
+                    }
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
@@ -149,15 +160,15 @@ function Navigation() {
                       alignItems: 'center', 
                       justifyContent: 'center',
                       width: '40px',
-                      color: location.pathname === page.path ? '#1976d2' : 'text.secondary'
+                      color: location.pathname === page.path ? '#d4af37' : '#6b7280'
                     }}>
                       {page.icon}
                     </Box>
                     <Typography 
                       sx={{ 
                         ml: 1,
-                        fontWeight: location.pathname === page.path ? 'bold' : 'normal',
-                        color: location.pathname === page.path ? '#1976d2' : 'text.primary'
+                        fontWeight: location.pathname === page.path ? 'bold' : '600',
+                        fontSize: '0.9rem'
                       }}
                     >
                       {page.title}
@@ -177,12 +188,16 @@ function Navigation() {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontWeight: 700,
-              color: 'inherit',
+              fontWeight: 900,
+              color: '#d4af37',
               textDecoration: 'none',
+              fontSize: '1.2rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
             }}
           >
-            Club de Boxeo
+            Club de Boxeo Parra
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -194,28 +209,52 @@ function Navigation() {
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: 'white',
+                  color: location.pathname === page.path ? '#d4af37' : '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   backgroundColor:
                     location.pathname === page.path
-                      ? 'rgba(255, 255, 255, 0.1)'
+                      ? 'rgba(212, 175, 55, 0.2)'
                       : 'transparent',
+                  borderRadius: '8px',
+                  px: 2,
+                  py: 1,
+                  mx: 0.5,
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  fontSize: '0.9rem',
+                  border: location.pathname === page.path ? '1px solid #d4af37' : '1px solid transparent',
+                  transition: 'all 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                    borderColor: '#d4af37',
+                    transform: 'translateY(-1px)',
                   },
                 }}
               >
                 {page.icon}
-                <Typography sx={{ ml: 1 }}>{page.title}</Typography>
+                <Typography sx={{ ml: 1, fontSize: '0.9rem' }}>{page.title}</Typography>
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Opciones">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar>
+              <IconButton 
+                onClick={handleOpenUserMenu} 
+                sx={{ 
+                  p: 0,
+                  color: '#d4af37',
+                  '&:hover': {
+                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                  }
+                }}
+              >
+                <Avatar sx={{ 
+                  backgroundColor: '#d4af37', 
+                  color: '#000000',
+                  fontWeight: 'bold'
+                }}>
                   <PersonIcon />
                 </Avatar>
               </IconButton>
@@ -224,9 +263,11 @@ function Navigation() {
               sx={{ 
                 mt: '45px',
                 '& .MuiPaper-root': {
-                  borderRadius: '8px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                  minWidth: '200px',
+                  borderRadius: '12px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                  minWidth: '220px',
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #d4af37',
                 }
               }}
               id="menu-appbar"
@@ -244,11 +285,25 @@ function Navigation() {
               onClose={handleCloseUserMenu}
             >
               {/* Mostrar información del usuario */}
-              <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+              <Box sx={{ 
+                px: 3, 
+                py: 2, 
+                borderBottom: '2px solid #d4af37',
+                backgroundColor: 'rgba(212, 175, 55, 0.05)'
+              }}>
+                <Typography variant="subtitle1" sx={{ 
+                  fontWeight: 'bold',
+                  color: '#000000',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.02em'
+                }}>
                   {user.name}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ textTransform: 'capitalize' }}>
+                <Typography variant="body2" sx={{ 
+                  color: '#d4af37',
+                  textTransform: 'capitalize',
+                  fontWeight: 600
+                }}>
                   {user.role}
                 </Typography>
               </Box>
@@ -256,14 +311,23 @@ function Navigation() {
               <MenuItem 
                 onClick={onLogout}
                 sx={{ 
-                  py: 1.5,
+                  py: 2,
+                  px: 3,
                   '&:hover': {
-                    backgroundColor: 'rgba(244, 67, 54, 0.08)'
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
                   }
                 }}
               >
-                <LogoutIcon sx={{ mr: 1, color: '#f44336' }} />
-                <Typography textAlign="center" color="error.main">Cerrar Sesión</Typography>
+                <LogoutIcon sx={{ mr: 2, color: '#dc2626' }} />
+                <Typography 
+                  textAlign="center" 
+                  sx={{ 
+                    color: '#dc2626',
+                    fontWeight: 600
+                  }}
+                >
+                  Cerrar Sesión
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>

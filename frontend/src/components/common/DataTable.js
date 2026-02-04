@@ -80,8 +80,8 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', ...sx }}>
       {isMobile ? (
-        // Vista de tarjetas para dispositivos móviles
-        <Box sx={{ p: 2 }}>
+        // Vista de tarjetas mejorada para dispositivos móviles
+        <Box sx={{ p: 1 }}>
           {rows
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => {
@@ -89,46 +89,100 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                 <Card 
                   key={row._id} 
                   sx={{ 
-                    mb: 3, 
-                    border: getRowClassName && getRowClassName(row) ? '2px solid #f50057' : 'none',
-                    boxShadow: '0 3px 8px rgba(0,0,0,0.12)',
-                    borderRadius: '8px',
-                    overflow: 'hidden'
+                    mb: 2, 
+                    border: getRowClassName && getRowClassName(row) ? '2px solid #f50057' : '1px solid rgba(0,0,0,0.12)',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                      transform: 'translateY(-1px)'
+                    }
                   }}
                 >
+                  {/* Header con información principal */}
                   <Box 
                     sx={{ 
-                      backgroundColor: '#f8f8f8', 
-                      borderBottom: '1px solid rgba(0,0,0,0.08)',
-                      p: 2
+                      background: 'linear-gradient(135deg, #000000 0%, #1f2937 100%)', 
+                      color: '#d4af37',
+                      p: 2,
+                      position: 'relative',
+                      borderBottom: '2px solid #d4af37'
                     }}
                   >
                     {/* Mostrar el nombre o primera columna como título */}
                     {columns.filter(col => !col.hide)[0] && (
-                      <Typography 
-                        variant="subtitle1" 
-                        sx={{ 
-                          fontWeight: 'bold',
-                          color: '#1976d2' 
+                      <Box>
+                        <Typography 
+                          variant="h6" 
+                          sx={{ 
+                            fontWeight: 'bold',
+                            fontSize: '1.1rem',
+                            mb: 0.5,
+                            lineHeight: 1.2,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.02em'
+                          }}
+                        >
+                          {(() => {
+                            const firstColumn = columns.filter(col => !col.hide)[0];
+                            return firstColumn.valueGetter
+                              ? firstColumn.valueGetter({ row })
+                              : firstColumn.valueFormatter
+                              ? firstColumn.valueFormatter({ value: row[firstColumn.field] })
+                              : row[firstColumn.field];
+                          })()}
+                        </Typography>
+                        
+                        {/* Segunda columna importante */}
+                        {columns.filter(col => !col.hide)[1] && (
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              opacity: 0.9,
+                              fontSize: '0.9rem',
+                              color: '#ffffff'
+                            }}
+                          >
+                            {(() => {
+                              const secondColumn = columns.filter(col => !col.hide)[1];
+                              return secondColumn.valueGetter
+                                ? secondColumn.valueGetter({ row })
+                                : secondColumn.valueFormatter
+                                ? secondColumn.valueFormatter({ value: row[secondColumn.field] })
+                                : row[secondColumn.field];
+                            })()}
+                          </Typography>
+                        )}
+                      </Box>
+                    )}
+                    
+                    {/* Indicador de estado */}
+                    {row.status && (
+                      <Chip
+                        label={row.status === 'active' ? 'Activo' : 'Inactivo'}
+                        size="small"
+                        sx={{
+                          position: 'absolute',
+                          top: 12,
+                          right: 12,
+                          backgroundColor: row.status === 'active' ? '#059669' : '#dc2626',
+                          color: '#ffffff',
+                          fontSize: '0.7rem',
+                          height: '24px',
+                          fontWeight: 'bold'
                         }}
-                      >
-                        {(() => {
-                          const firstColumn = columns.filter(col => !col.hide)[0];
-                          return firstColumn.valueGetter
-                            ? firstColumn.valueGetter({ row })
-                            : firstColumn.valueFormatter
-                            ? firstColumn.valueFormatter({ value: row[firstColumn.field] })
-                            : row[firstColumn.field];
-                        })()}
-                      </Typography>
+                      />
                     )}
                   </Box>
                   
-                  <CardContent sx={{ p: 2.5 }}>
-                    <Grid container spacing={2}>
+                  {/* Contenido con información detallada */}
+                  <CardContent sx={{ p: 2 }}>
+                    <Grid container spacing={1.5}>
                       {columns
                         .filter(column => !column.hide)
-                        .slice(1, 4) // Mostrar solo las siguientes 3 columnas más importantes
+                        .slice(2, 6) // Mostrar las siguientes 4 columnas importantes
                         .map((column) => {
                           const value = column.valueGetter
                             ? column.valueGetter({ row })
@@ -137,13 +191,32 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                             : row[column.field];
                           
                           return (
-                            <Grid item xs={12} key={column.field}>
-                              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                                <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: 'medium' }}>
-                                  {column.headerName}:
+                            <Grid item xs={6} key={column.field}>
+                              <Box sx={{ mb: 1 }}>
+                                <Typography 
+                                  variant="caption" 
+                                  color="text.secondary" 
+                                  sx={{ 
+                                    fontSize: '0.7rem',
+                                    fontWeight: 600,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: 0.5,
+                                    display: 'block',
+                                    mb: 0.3
+                                  }}
+                                >
+                                  {column.headerName}
                                 </Typography>
-                                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                                  {value}
+                                <Typography 
+                                  variant="body2" 
+                                  sx={{ 
+                                    fontWeight: 'medium',
+                                    fontSize: '0.85rem',
+                                    color: '#333',
+                                    lineHeight: 1.3
+                                  }}
+                                >
+                                  {value || '-'}
                                 </Typography>
                               </Box>
                             </Grid>
@@ -151,38 +224,15 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                         })}
                     </Grid>
                     
-                    {columns.length > 4 && (
-                      <>
-                        <Divider sx={{ my: 2 }} />
-                        <Grid container spacing={2}>
-                          {columns
-                            .filter(column => !column.hide)
-                            .slice(4) // Mostrar el resto de columnas debajo
-                            .map((column) => {
-                              const value = column.valueGetter
-                                ? column.valueGetter({ row })
-                                : column.valueFormatter
-                                ? column.valueFormatter({ value: row[column.field] })
-                                : row[column.field];
-                              
-                              return (
-                                <Grid item xs={6} key={column.field}>
-                                  <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1.5 }}>
-                                    <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5, fontWeight: 'medium' }}>
-                                      {column.headerName}
-                                    </Typography>
-                                    <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                                      {value}
-                                    </Typography>
-                                  </Box>
-                                </Grid>
-                              );
-                            })}
-                        </Grid>
-                      </>
-                    )}
-                    
-                    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                    {/* Acciones */}
+                    <Box sx={{ 
+                      mt: 2, 
+                      pt: 2, 
+                      borderTop: '1px solid rgba(0,0,0,0.08)',
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      gap: 1 
+                    }}>
                       {onEdit && !(window.location.pathname === '/students' && user.role === 'empleado') && (
                         <Button
                           variant="contained"
@@ -192,7 +242,10 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                           startIcon={<EditIcon />}
                           sx={{ 
                             borderRadius: '8px',
-                            boxShadow: '0 2px 4px rgba(25, 118, 210, 0.2)'
+                            boxShadow: '0 2px 4px rgba(25, 118, 210, 0.2)',
+                            fontSize: '0.8rem',
+                            flex: 1,
+                            py: 0.8
                           }}
                         >
                           Editar
@@ -206,7 +259,16 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                           size="small"
                           startIcon={<DeleteIcon />}
                           sx={{ 
-                            borderRadius: '8px'
+                            borderRadius: '8px',
+                            fontSize: '0.8rem',
+                            flex: 1,
+                            py: 0.8,
+                            borderColor: '#f44336',
+                            color: '#f44336',
+                            '&:hover': {
+                              borderColor: '#d32f2f',
+                              backgroundColor: 'rgba(244, 67, 54, 0.04)'
+                            }
                           }}
                         >
                           Eliminar
@@ -329,37 +391,51 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
         </TableContainer>
       )}
       <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
+        rowsPerPageOptions={isMobile ? [5, 10, 25] : [10, 25, 50]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        labelRowsPerPage="Filas por página"
+        labelRowsPerPage={isMobile ? "Filas:" : "Filas por página"}
         labelDisplayedRows={({ from, to, count }) =>
-          `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
+          isMobile 
+            ? `${from}-${to} de ${count !== -1 ? count : `+${to}`}`
+            : `${from}-${to} de ${count !== -1 ? count : `más de ${to}`}`
         }
         sx={{
           '.MuiTablePagination-toolbar': {
-            padding: '16px',
+            padding: isMobile ? '8px 12px' : '16px',
             borderTop: '1px solid rgba(224, 224, 224, 0.7)',
             backgroundColor: '#fafafa',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 1,
           },
           '.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows': {
             fontWeight: 'medium',
-            fontSize: '0.9rem',
+            fontSize: isMobile ? '0.8rem' : '0.9rem',
           },
           '.MuiTablePagination-select': {
             marginLeft: '8px',
             marginRight: '16px',
+            fontSize: isMobile ? '0.8rem' : '0.9rem',
           },
           '.MuiTablePagination-actions': {
             marginLeft: '16px',
           },
           '.MuiButtonBase-root': {
-            padding: '8px',
-          }
+            padding: isMobile ? '6px' : '8px',
+            margin: isMobile ? '0 2px' : '0 4px',
+          },
+          '@media (min-width: 600px)': {
+            '.MuiTablePagination-toolbar': {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+          },
         }}
       />
     </Paper>

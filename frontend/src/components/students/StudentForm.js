@@ -14,6 +14,8 @@ import {
   Select,
   MenuItem,
   Grid,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 function StudentForm({ open, onClose, student = null }) {
@@ -30,6 +32,11 @@ function StudentForm({ open, onClose, student = null }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { isError, isSuccess, message } = useSelector((state) => state.students);
+  
+  // Responsive design hooks
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     if (student) {
@@ -91,10 +98,27 @@ function StudentForm({ open, onClose, student = null }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{student ? 'Editar Estudiante' : 'Nuevo Estudiante'}</DialogTitle>
-      <DialogContent>
-        <Grid container spacing={2} sx={{ mt: 1 }}>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth={isMobile ? "xs" : "sm"} 
+      fullWidth
+      PaperProps={{
+        sx: {
+          m: isMobile ? 2 : 3,
+          maxHeight: isMobile ? '90vh' : 'auto'
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        fontSize: isMobile ? '1.2rem' : '1.5rem',
+        pb: 1,
+        textAlign: 'center'
+      }}>
+        {student ? 'Editar Estudiante' : 'Nuevo Estudiante'}
+      </DialogTitle>
+      <DialogContent sx={{ pt: 1 }}>
+        <Grid container spacing={isMobile ? 1.5 : 2} sx={{ mt: 0.5 }}>
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -103,6 +127,8 @@ function StudentForm({ open, onClose, student = null }) {
               value={formData.name}
               onChange={handleChange}
               required
+              size={isMobile ? "small" : "medium"}
+              sx={{ '& .MuiInputBase-root': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -113,6 +139,8 @@ function StudentForm({ open, onClose, student = null }) {
               value={formData.phone}
               onChange={handleChange}
               required
+              size={isMobile ? "small" : "medium"}
+              sx={{ '& .MuiInputBase-root': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -123,16 +151,19 @@ function StudentForm({ open, onClose, student = null }) {
               type="email"
               value={formData.email}
               onChange={handleChange}
+              size={isMobile ? "small" : "medium"}
+              sx={{ '& .MuiInputBase-root': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth required>
+            <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
               <InputLabel>Estado</InputLabel>
               <Select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
                 label="Estado"
+                sx={{ '& .MuiSelect-select': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
               >
                 <MenuItem value="active">Activo</MenuItem>
                 <MenuItem value="inactive">Inactivo</MenuItem>
@@ -140,13 +171,14 @@ function StudentForm({ open, onClose, student = null }) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth required>
+            <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
               <InputLabel>Tipo de Membresía</InputLabel>
               <Select
                 name="membershipType"
                 value={formData.membershipType}
                 onChange={handleChange}
                 label="Tipo de Membresía"
+                sx={{ '& .MuiSelect-select': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
               >
                 <MenuItem value="monthly">Mensual</MenuItem>
                 <MenuItem value="weekly">Semanal</MenuItem>
@@ -156,13 +188,14 @@ function StudentForm({ open, onClose, student = null }) {
           </Grid>
           {user.role === 'admin' && (
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required>
+              <FormControl fullWidth required size={isMobile ? "small" : "medium"}>
                 <InputLabel>Gimnasio</InputLabel>
                 <Select
                   name="gym"
                   value={formData.gym}
                   onChange={handleChange}
                   label="Gimnasio"
+                  sx={{ '& .MuiSelect-select': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
                 >
                   <MenuItem value="UAN">UAN</MenuItem>
                   <MenuItem value="Villas del Parque">Villas del Parque</MenuItem>
@@ -176,16 +209,34 @@ function StudentForm({ open, onClose, student = null }) {
               label="Notas"
               name="notes"
               multiline
-              rows={3}
+              rows={isMobile ? 2 : 3}
               value={formData.notes}
               onChange={handleChange}
+              size={isMobile ? "small" : "medium"}
+              sx={{ '& .MuiInputBase-root': { fontSize: isMobile ? '0.9rem' : '1rem' } }}
             />
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
+      <DialogActions sx={{ 
+        p: isMobile ? 2 : 3,
+        gap: 1,
+        flexDirection: isMobile ? 'column' : 'row'
+      }}>
+        <Button 
+          onClick={onClose} 
+          fullWidth={isMobile}
+          size={isMobile ? "medium" : "large"}
+        >
+          Cancelar
+        </Button>
+        <Button 
+          onClick={handleSubmit} 
+          variant="contained" 
+          color="primary"
+          fullWidth={isMobile}
+          size={isMobile ? "medium" : "large"}
+        >
           {student ? 'Actualizar' : 'Guardar'}
         </Button>
       </DialogActions>
