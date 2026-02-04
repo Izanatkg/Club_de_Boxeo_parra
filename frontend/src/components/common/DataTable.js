@@ -104,11 +104,11 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                   {/* Header con información principal */}
                   <Box 
                     sx={{ 
-                      background: 'linear-gradient(135deg, #000000 0%, #1f2937 100%)', 
-                      color: '#d4af37',
+                      background: 'linear-gradient(135deg, #151414 0%, #1d1b1b 100%)',
+                      color: '#da2525',
                       p: 2,
                       position: 'relative',
-                      borderBottom: '2px solid #d4af37'
+                      borderBottom: '2px solid #da2525'
                     }}
                   >
                     {/* Mostrar el nombre o primera columna como título */}
@@ -118,7 +118,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                           variant="h6" 
                           sx={{ 
                             fontWeight: 'bold',
-                            fontSize: '1.1rem',
+                            fontSize: '1.2rem',
                             mb: 0.5,
                             lineHeight: 1.2,
                             textTransform: 'uppercase',
@@ -168,7 +168,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                           position: 'absolute',
                           top: 12,
                           right: 12,
-                          backgroundColor: row.status === 'active' ? '#059669' : '#dc2626',
+                          backgroundColor: row.status === 'active' ? '#dc2626' : '#000000',
                           color: '#ffffff',
                           fontSize: '0.7rem',
                           height: '24px',
@@ -265,9 +265,9 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                             flex: 1,
                             py: 0.8,
                             borderColor: '#dc2626',
-                            color: '#dc2626',
+                            color: '#da2525',
                             '&:hover': {
-                              borderColor: '#991b1b',
+                              borderColor: '#000000',
                               backgroundColor: 'rgba(220, 38, 38, 0.04)'
                             }
                           }}
@@ -296,7 +296,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                         padding: '16px 20px',
                         fontSize: '0.95rem',
                         fontWeight: 'bold',
-                        backgroundColor: '#1a1a1a'
+                        backgroundColor: '#151414'
                       }}
                     >
                       {column.headerName}

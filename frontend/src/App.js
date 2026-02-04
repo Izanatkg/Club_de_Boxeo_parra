@@ -19,36 +19,36 @@ import 'react-toastify/dist/ReactToastify.css';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#d4af37', // Dorado elegante
-      dark: '#b8941f', // Dorado oscuro
-      light: '#f4e5c2', // Dorado claro
-      contrastText: '#000000', // Texto negro sobre dorado
-    },
-    secondary: {
-      main: '#dc2626', // Rojo boxeo
-      dark: '#991b1b', // Rojo oscuro
-      light: '#ef4444', // Rojo claro
+      main: '#da2525', // Rojo intenso
+      dark: '#b82020', // Rojo oscuro
+      light: '#f04040', // Rojo claro
       contrastText: '#ffffff', // Texto blanco sobre rojo
     },
+    secondary: {
+      main: '#ffffff', // Gris medio
+      dark: '#3a3939', // Gris oscuro
+      light: '#6b6a6a', // Gris claro
+      contrastText: '#ffffff', // Texto blanco sobre gris
+    },
     background: {
-      default: '#000000', // Negro puro
-      paper: '#1a1a1a', // Negro ligeramente más claro
+      default: '#151414', // Negro más oscuro
+      paper: '#1d1b1b', // Negro grisáceo
     },
     text: {
-      primary: '#ffffff', // Blanco puro
-      secondary: '#d4af37', // Dorado para texto secundario
+      primary: '#ffffff', // Blanco rosado suave
+      secondary: '#ffffff', // Gris medio
     },
     error: {
-      main: '#dc2626', // Rojo para errores
+      main: '#da2525', // Rojo para errores
     },
     warning: {
-      main: '#d4af37', // Dorado para advertencias
+      main: '#da2525', // Rojo para advertencias
     },
     success: {
-      main: '#059669', // Verde esmeralda (complementario)
+      main: '#da2525', // Rojo para éxito
     },
     info: {
-      main: '#1f2937', // Gris oscuro para información
+      main: '#e7dada', // Blanco rosado para información
     },
   },
   typography: {
@@ -60,7 +60,7 @@ const theme = createTheme({
         sm: '2.5rem',
         md: '3rem',
       },
-      color: '#000000',
+      color: '#ffffff',
       textTransform: 'uppercase',
       letterSpacing: '0.05em',
     },
@@ -71,7 +71,7 @@ const theme = createTheme({
         sm: '2rem',
         md: '2.5rem',
       },
-      color: '#000000',
+      color: '#ffffff',
       textTransform: 'uppercase',
       letterSpacing: '0.03em',
     },
@@ -82,7 +82,7 @@ const theme = createTheme({
         sm: '1.5rem',
         md: '1.75rem',
       },
-      color: '#000000',
+      color: '#ffffff',
       textTransform: 'uppercase',
       letterSpacing: '0.02em',
     },
@@ -93,7 +93,7 @@ const theme = createTheme({
         sm: '1.25rem',
         md: '1.5rem',
       },
-      color: '#000000',
+      color: '#ffffff',
     },
     h5: {
       fontWeight: 600,
@@ -102,7 +102,7 @@ const theme = createTheme({
         sm: '1.1rem',
         md: '1.25rem',
       },
-      color: '#000000',
+      color: '#ffffff',
     },
     h6: {
       fontWeight: 500,
@@ -111,7 +111,7 @@ const theme = createTheme({
         sm: '1rem',
         md: '1.1rem',
       },
-      color: '#000000',
+      color: '#ffffff',
     },
     body1: {
       fontSize: {
@@ -127,7 +127,7 @@ const theme = createTheme({
         sm: '0.85rem',
         md: '0.875rem',
       },
-      color: '#d4af37',
+      color: '#ffffff',
     },
   },
   breakpoints: {
@@ -159,29 +159,31 @@ const theme = createTheme({
           },
         },
         containedPrimary: {
-          background: 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)',
-          color: '#000000',
+          backgroundColor: '#da2525',
+          color: '#ffffff',
           '&:hover': {
-            background: 'linear-gradient(135deg, #b8941f 0%, #9c7a1a 100%)',
+            backgroundColor: '#b82020',
           },
         },
         containedSecondary: {
-          background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+          backgroundColor: '#ffffff',
+          color: '#ffffff',
           '&:hover': {
-            background: 'linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%)',
+            backgroundColor: '#3a3939',
           },
         },
         outlined: {
-          borderColor: '#d4af37',
-          color: '#d4af37',
+          borderColor: '#da2525',
+          color: '#da2525',
           '&:hover': {
-            borderColor: '#b8941f',
-            backgroundColor: 'rgba(212, 175, 55, 0.04)',
+            borderColor: '#b82020',
+            backgroundColor: 'rgba(218, 37, 37, 0.04)',
+            color: '#b82020',
           },
         },
         outlinedSecondary: {
-          borderColor: '#dc2626',
-          color: '#dc2626',
+          borderColor: '#da2525',
+          color: '#da2525',
           '&:hover': {
             borderColor: '#991b1b',
             backgroundColor: 'rgba(220, 38, 38, 0.04)',
@@ -192,9 +194,9 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #000000 0%, #1f2937 100%)',
+          background: 'linear-gradient(135deg, #151414 0%, #1d1b1b 100%)',
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
-          borderBottom: '2px solid #d4af37',
+          borderBottom: '2px solid #da2525',
         },
       },
     },
@@ -203,11 +205,11 @@ const theme = createTheme({
         root: {
           borderRadius: 12,
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          border: '1px solid rgba(212, 175, 55, 0.2)',
+          border: '1px solid rgba(218, 37, 37, 0.2)',
           transition: 'all 0.3s ease',
           '&:hover': {
             boxShadow: '0 8px 12px rgba(0, 0, 0, 0.15)',
-            borderColor: 'rgba(212, 175, 55, 0.4)',
+            borderColor: 'rgba(218, 37, 37, 0.4)',
           },
         },
       },
@@ -239,11 +241,11 @@ const theme = createTheme({
             sm: '12px 16px',
             md: '14px 20px',
           },
-          borderBottom: '1px solid rgba(212, 175, 55, 0.2)',
+          borderBottom: '1px solid rgba(218, 37, 37, 0.2)',
         },
         head: {
-          backgroundColor: '#000000',
-          color: '#d4af37',
+          backgroundColor: '#151414',
+          color: '#ffffff',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
@@ -268,22 +270,22 @@ const theme = createTheme({
           },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
-              borderColor: 'rgba(212, 175, 55, 0.3)',
+              borderColor: 'rgba(218, 37, 37, 0.3)',
               borderRadius: 8,
             },
             '&:hover fieldset': {
-              borderColor: '#d4af37',
+              borderColor: '#da2525',
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#d4af37',
+              borderColor: '#da2525',
               borderWidth: 2,
             },
           },
           '& .MuiInputLabel-root': {
-            color: '#d4af37',
+            color: '#ffffff',
             fontWeight: 500,
             '&.Mui-focused': {
-              color: '#d4af37',
+              color: '#ffffff',
             },
           },
         },
@@ -315,15 +317,15 @@ const theme = createTheme({
           borderRadius: 16,
         },
         colorPrimary: {
-          backgroundColor: '#d4af37',
-          color: '#000000',
+          backgroundColor: '#dc2626',
+          color: '#ffffff',
         },
         colorSecondary: {
           backgroundColor: '#dc2626',
           color: '#ffffff',
         },
         colorSuccess: {
-          backgroundColor: '#059669',
+          backgroundColor: '#dc2626',
           color: '#ffffff',
         },
         colorError: {
@@ -331,8 +333,8 @@ const theme = createTheme({
           color: '#ffffff',
         },
         colorWarning: {
-          backgroundColor: '#d4af37',
-          color: '#000000',
+          backgroundColor: '#dc2626',
+          color: '#ffffff',
         },
       },
     },
@@ -341,7 +343,7 @@ const theme = createTheme({
         root: {
           '& .MuiDialog-paper': {
             borderRadius: 16,
-            border: '2px solid #d4af37',
+            border: '2px solid #da2525',
           },
         },
       },
@@ -349,8 +351,8 @@ const theme = createTheme({
     MuiDialogTitle: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #000000 0%, #1f2937 100%)',
-          color: '#d4af37',
+          background: 'linear-gradient(135deg, #151414 0%, #1d1b1b 100%)',
+          color: '#ffffff',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',

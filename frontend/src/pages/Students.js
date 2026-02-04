@@ -183,7 +183,7 @@ function Students() {
               gutterBottom
               sx={{ 
                 fontWeight: 'bold',
-                color: '#d4af37',
+                color: '#dc2626',
                 fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
                 textAlign: { xs: 'center', sm: 'left' }
               }}
@@ -201,11 +201,11 @@ function Students() {
               sx={{ 
                 borderRadius: '8px',
                 padding: isMobile ? '8px 16px' : '10px 20px',
-                boxShadow: '0 4px 10px rgba(25, 118, 210, 0.3)',
+                boxShadow: '0 4px 10px rgba(220, 38, 38, 0.3)',
                 fontWeight: 'bold',
                 '&:hover': {
-                  boxShadow: '0 6px 12px rgba(25, 118, 210, 0.4)',
-                  backgroundColor: '#1565c0'
+                  boxShadow: '0 6px 12px rgba(220, 38, 38, 0.4)',
+                  backgroundColor: '#991b1b'
                 }
               }}
             >

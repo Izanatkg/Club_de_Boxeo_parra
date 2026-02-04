@@ -238,7 +238,7 @@ function Sales() {
               gutterBottom
               sx={{ 
                 fontWeight: 'bold',
-                color: '#d4af37',
+                color: '#dc2626',
                 fontSize: { xs: '1.8rem', sm: '2.2rem' }
               }}
             >
@@ -256,7 +256,7 @@ function Sales() {
               <Typography color="textSecondary" gutterBottom variant="h6">
                 Ventas del Día
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#059669' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#dc2626', }}>
                 ${getDailySales().toFixed(2)}
               </Typography>
             </CardContent>
@@ -269,7 +269,7 @@ function Sales() {
               <Typography color="textSecondary" gutterBottom variant="h6">
                 Ventas del Mes
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#d4af37' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#d4af37', }}>
                 ${getMonthlySales().toFixed(2)}
               </Typography>
             </CardContent>
@@ -302,7 +302,7 @@ function Sales() {
               <TableContainer component={Paper} sx={{ borderRadius: '8px', boxShadow: 'none', border: '1px solid rgba(0,0,0,0.08)' }}>
                 <Table>
                   <TableHead>
-                    <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                    <TableRow sx={{ backgroundColor: '#ffff' }}>
                       <TableCell>Fecha</TableCell>
                       <TableCell>Producto</TableCell>
                       <TableCell align="right">Cantidad</TableCell>

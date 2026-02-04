@@ -187,7 +187,7 @@ function Products() {
             }}
             size="small"
             sx={{ 
-              backgroundColor: 'rgba(2, 136, 209, 0.08)',
+              backgroundColor: "white",
               '&:hover': { backgroundColor: 'rgba(2, 136, 209, 0.15)' }
             }}
           >

@@ -84,7 +84,7 @@ function Navigation() {
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontWeight: 900,
-              color: '#d4af37',
+              color: '#da2525',
               textDecoration: 'none',
               fontSize: '1.5rem',
               textTransform: 'uppercase',
@@ -102,7 +102,7 @@ function Navigation() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              sx={{ color: '#EFE1DF' }}
+              sx={{ color: '#e7dada' }}
             >
               <MenuIcon />
             </IconButton>
@@ -131,8 +131,8 @@ function Navigation() {
                   marginRight: 'auto',
                   borderRadius: '0 0 16px 16px',
                   boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                  backgroundColor: '#1D1C1C',
-                  border: '2px solid #4C3636',
+                  backgroundColor: '#151414',
+                  border: '2px solid #da2525',
                   borderTop: 'none',
                 }
               }}
@@ -146,9 +146,9 @@ function Navigation() {
                   selected={location.pathname === page.path}
                   sx={{
                     py: 2,
-                    borderLeft: location.pathname === page.path ? '4px solid #DB2626' : '4px solid transparent',
-                    backgroundColor: location.pathname === page.path ? 'rgba(219, 38, 38, 0.1)' : 'transparent',
-                    color: location.pathname === page.path ? '#EFE1DF' : '#B28687',
+                    borderLeft: location.pathname === page.path ? '4px solid #da2525' : '4px solid transparent',
+                    backgroundColor: location.pathname === page.path ? 'rgba(218, 37, 37, 0.1)' : 'transparent',
+                    color: location.pathname === page.path ? '#e7dada' : '#e7dada',
                     '&:hover': {
                       backgroundColor: 'rgba(212, 175, 55, 0.05)',
                     }
@@ -160,7 +160,7 @@ function Navigation() {
                       alignItems: 'center', 
                       justifyContent: 'center',
                       width: '40px',
-                      color: location.pathname === page.path ? '#d4af37' : '#ffffff'
+                      color: location.pathname === page.path ? '#525151' : '#e7dada'
                     }}>
                       {page.icon}
                     </Box>
@@ -169,7 +169,7 @@ function Navigation() {
                         ml: 1,
                         fontWeight: location.pathname === page.path ? 'bold' : '600',
                         fontSize: '0.9rem',
-                        color: location.pathname === page.path ? '#EFE1DF' : '#B28687'
+                        color: location.pathname === page.path ? '#e7dada' : '#e7dada'
                       }}
                     >
                       {page.title}
@@ -190,7 +190,7 @@ function Navigation() {
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
               fontWeight: 900,
-              color: '#d4af37',
+              color: '#da2525',
               textDecoration: 'none',
               fontSize: '1.2rem',
               textTransform: 'uppercase',
@@ -210,7 +210,7 @@ function Navigation() {
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: location.pathname === page.path ? '#EFE1DF' : '#B28687',
+                  color: location.pathname === page.path ? '#da2525' : '#e7dada',
                   display: 'flex',
                   alignItems: 'center',
                   backgroundColor:
@@ -224,11 +224,11 @@ function Navigation() {
                   fontWeight: 600,
                   textTransform: 'none',
                   fontSize: '0.9rem',
-                  border: location.pathname === page.path ? '1px solid #d4af37' : '1px solid transparent',
+                  border: location.pathname === page.path ? '1px solid #da2525' : '1px solid transparent',
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                    borderColor: '#d4af37',
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    borderColor: '#da2525',
                     transform: 'translateY(-1px)',
                   },
                 }}
@@ -245,15 +245,15 @@ function Navigation() {
                 onClick={handleOpenUserMenu} 
                 sx={{ 
                   p: 0,
-                  color: '#d4af37',
+                  color: '#e7dada',
                   '&:hover': {
-                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
                   }
                 }}
               >
                 <Avatar sx={{ 
-                  backgroundColor: '#1D1C1C', 
-                  color: '#EFE1DF',
+                  backgroundColor: '#151414',
+                  color: '#e7dada',
                   fontWeight: 'bold'
                 }}>
                   <PersonIcon />
@@ -267,8 +267,8 @@ function Navigation() {
                   borderRadius: '12px',
                   boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
                   minWidth: '220px',
-                  backgroundColor: '#1D1C1C',
-                  border: '2px solid #4C3636',
+                  backgroundColor: '#151414',
+                  border: '2px solid #da2525',
                 }
               }}
               id="menu-appbar"
@@ -289,19 +289,19 @@ function Navigation() {
               <Box sx={{ 
                 px: 3, 
                 py: 2, 
-                borderBottom: '2px solid #d4af37',
-                backgroundColor: 'rgba(212, 175, 55, 0.05)'
+                borderBottom: '2px solid #da2525',
+                backgroundColor: 'rgba(0, 0, 0, 0.1)'
               }}>
                 <Typography variant="subtitle1" sx={{ 
                   fontWeight: 'bold',
-                  color: '#ffffff',
+                  color: '#e7dada',
                   textTransform: 'uppercase',
                   letterSpacing: '0.02em'
                 }}>
                   {user.name}
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: '#d4af37',
+                  color: '#e7dada',
                   textTransform: 'capitalize',
                   fontWeight: 600
                 }}>
@@ -319,11 +319,11 @@ function Navigation() {
                   }
                 }}
               >
-                <LogoutIcon sx={{ mr: 2, color: '#dc2626' }} />
+                <LogoutIcon sx={{ mr: 2, color: '#da2525' }} />
                 <Typography 
                   textAlign="center" 
                   sx={{ 
-                    color: '#DB2626',
+                    color: '#da2525',
                     fontWeight: 600
                   }}
                 >
