@@ -238,7 +238,7 @@ function Sales() {
               gutterBottom
               sx={{ 
                 fontWeight: 'bold',
-                color: '#1976d2',
+                color: '#d4af37',
                 fontSize: { xs: '1.8rem', sm: '2.2rem' }
               }}
             >
@@ -256,7 +256,7 @@ function Sales() {
               <Typography color="textSecondary" gutterBottom variant="h6">
                 Ventas del Día
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2e7d32' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#059669' }}>
                 ${getDailySales().toFixed(2)}
               </Typography>
             </CardContent>
@@ -269,7 +269,7 @@ function Sales() {
               <Typography color="textSecondary" gutterBottom variant="h6">
                 Ventas del Mes
               </Typography>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#1976d2' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#d4af37' }}>
                 ${getMonthlySales().toFixed(2)}
               </Typography>
             </CardContent>

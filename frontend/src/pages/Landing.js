@@ -50,18 +50,18 @@ const NavLink = styled(Typography)(({ theme }) => ({
 }));
 
 const AdminButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#dc004e',
+  backgroundColor: '#dc2626',
   color: 'white',
   '&:hover': {
-    backgroundColor: '#b0003a',
+    backgroundColor: '#991b1b',
   },
 }));
 
 const NoticeCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   marginBottom: theme.spacing(2),
-  backgroundColor: '#f5f5f5',
-  borderLeft: `4px solid ${theme.palette.primary.main}`,
+  backgroundColor: '#1a1a1a',
+  borderLeft: `4px solid #d4af37`,
 }));
 
 const Landing = () => {
@@ -250,7 +250,7 @@ const Landing = () => {
       </Container>
 
       {/* Sección de Imagen Adicional */}
-      <Box sx={{ py: 6, bgcolor: '#f5f5f5' }}>
+      <Box sx={{ py: 6, bgcolor: '#1a1a1a' }}>
         <Container>
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6}>

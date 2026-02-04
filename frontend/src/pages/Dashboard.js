@@ -291,7 +291,7 @@ function Dashboard() {
                 helperText={selectedProduct.type === 'class' ? 'Sin límite de cantidad' : `Máximo disponible: ${selectedProduct.stock?.[selectedLocation] || 0}`}
               />
               
-              <Typography variant="h6" sx={{ mt: 3, textAlign: 'center', fontWeight: 'bold', color: '#1976d2' }}>
+              <Typography variant="h6" sx={{ mt: 3, textAlign: 'center', fontWeight: 'bold', color: '#d4af37' }}>
                 Total: ${(selectedProduct.price * quantity).toFixed(2)}
               </Typography>
             </Box>
@@ -421,7 +421,7 @@ function Dashboard() {
             justifyContent: 'space-between',
             p: isMobile ? 2 : 3,
             background: 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)',
-            color: '#000000',
+            color: '#ffffff',
             boxShadow: '0 8px 24px rgba(212, 175, 55, 0.4)',
             border: '2px solid #d4af37',
             position: 'relative',
@@ -463,7 +463,7 @@ function Dashboard() {
             <Typography variant="h6" gutterBottom sx={{ 
               mb: 3, 
               fontWeight: 'bold',
-              color: '#1976d2',
+              color: '#d4af37',
               textAlign: { xs: 'center', sm: 'left' }
             }}>
               Productos Disponibles
@@ -494,7 +494,7 @@ function Dashboard() {
                           variant="h6" 
                           sx={{ 
                             fontWeight: 'bold',
-                            color: '#1976d2',
+                            color: '#d4af37',
                             flex: 1,
                             mr: 1,
                             fontSize: '1rem'
@@ -518,7 +518,7 @@ function Dashboard() {
                             <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem', fontWeight: 600 }}>
                               PRECIO
                             </Typography>
-                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#388e3c' }}>
+                            <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#059669' }}>
                               ${product.price?.toFixed(2)}
                             </Typography>
                           </Box>

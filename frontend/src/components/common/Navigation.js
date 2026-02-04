@@ -102,7 +102,7 @@ function Navigation() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              sx={{ color: '#d4af37' }}
+              sx={{ color: '#EFE1DF' }}
             >
               <MenuIcon />
             </IconButton>
@@ -131,8 +131,8 @@ function Navigation() {
                   marginRight: 'auto',
                   borderRadius: '0 0 16px 16px',
                   boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                  backgroundColor: '#ffffff',
-                  border: '2px solid #d4af37',
+                  backgroundColor: '#1D1C1C',
+                  border: '2px solid #4C3636',
                   borderTop: 'none',
                 }
               }}
@@ -146,9 +146,9 @@ function Navigation() {
                   selected={location.pathname === page.path}
                   sx={{
                     py: 2,
-                    borderLeft: location.pathname === page.path ? '4px solid #d4af37' : '4px solid transparent',
-                    backgroundColor: location.pathname === page.path ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                    color: location.pathname === page.path ? '#d4af37' : '#ffffff',
+                    borderLeft: location.pathname === page.path ? '4px solid #DB2626' : '4px solid transparent',
+                    backgroundColor: location.pathname === page.path ? 'rgba(219, 38, 38, 0.1)' : 'transparent',
+                    color: location.pathname === page.path ? '#EFE1DF' : '#B28687',
                     '&:hover': {
                       backgroundColor: 'rgba(212, 175, 55, 0.05)',
                     }
@@ -160,7 +160,7 @@ function Navigation() {
                       alignItems: 'center', 
                       justifyContent: 'center',
                       width: '40px',
-                      color: location.pathname === page.path ? '#d4af37' : '#d4af37'
+                      color: location.pathname === page.path ? '#d4af37' : '#ffffff'
                     }}>
                       {page.icon}
                     </Box>
@@ -168,7 +168,8 @@ function Navigation() {
                       sx={{ 
                         ml: 1,
                         fontWeight: location.pathname === page.path ? 'bold' : '600',
-                        fontSize: '0.9rem'
+                        fontSize: '0.9rem',
+                        color: location.pathname === page.path ? '#EFE1DF' : '#B28687'
                       }}
                     >
                       {page.title}
@@ -209,12 +210,12 @@ function Navigation() {
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: location.pathname === page.path ? '#d4af37' : '#ffffff',
+                  color: location.pathname === page.path ? '#EFE1DF' : '#B28687',
                   display: 'flex',
                   alignItems: 'center',
                   backgroundColor:
                     location.pathname === page.path
-                      ? 'rgba(212, 175, 55, 0.2)'
+                      ? 'rgba(219, 38, 38, 0.1)'
                       : 'transparent',
                   borderRadius: '8px',
                   px: 2,
@@ -251,8 +252,8 @@ function Navigation() {
                 }}
               >
                 <Avatar sx={{ 
-                  backgroundColor: '#d4af37', 
-                  color: '#000000',
+                  backgroundColor: '#1D1C1C', 
+                  color: '#EFE1DF',
                   fontWeight: 'bold'
                 }}>
                   <PersonIcon />
@@ -266,8 +267,8 @@ function Navigation() {
                   borderRadius: '12px',
                   boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
                   minWidth: '220px',
-                  backgroundColor: '#ffffff',
-                  border: '2px solid #d4af37',
+                  backgroundColor: '#1D1C1C',
+                  border: '2px solid #4C3636',
                 }
               }}
               id="menu-appbar"
@@ -293,7 +294,7 @@ function Navigation() {
               }}>
                 <Typography variant="subtitle1" sx={{ 
                   fontWeight: 'bold',
-                  color: '#000000',
+                  color: '#ffffff',
                   textTransform: 'uppercase',
                   letterSpacing: '0.02em'
                 }}>
@@ -322,7 +323,7 @@ function Navigation() {
                 <Typography 
                   textAlign="center" 
                   sx={{ 
-                    color: '#d4af37',
+                    color: '#DB2626',
                     fontWeight: 600
                   }}
                 >

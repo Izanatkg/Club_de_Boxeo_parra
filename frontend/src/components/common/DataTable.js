@@ -122,7 +122,8 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                             mb: 0.5,
                             lineHeight: 1.2,
                             textTransform: 'uppercase',
-                            letterSpacing: '0.02em'
+                            letterSpacing: '0.02em',
+                            color: '#d4af37'
                           }}
                         >
                           {(() => {
@@ -263,11 +264,11 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                             fontSize: '0.8rem',
                             flex: 1,
                             py: 0.8,
-                            borderColor: '#f44336',
-                            color: '#f44336',
+                            borderColor: '#dc2626',
+                            color: '#dc2626',
                             '&:hover': {
-                              borderColor: '#d32f2f',
-                              backgroundColor: 'rgba(244, 67, 54, 0.04)'
+                              borderColor: '#991b1b',
+                              backgroundColor: 'rgba(220, 38, 38, 0.04)'
                             }
                           }}
                         >
@@ -295,7 +296,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                         padding: '16px 20px',
                         fontSize: '0.95rem',
                         fontWeight: 'bold',
-                        backgroundColor: '#f5f5f5'
+                        backgroundColor: '#1a1a1a'
                       }}
                     >
                       {column.headerName}
@@ -408,7 +409,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
           '.MuiTablePagination-toolbar': {
             padding: isMobile ? '8px 12px' : '16px',
             borderTop: '1px solid rgba(224, 224, 224, 0.7)',
-            backgroundColor: '#fafafa',
+            backgroundColor: '#1a1a1a',
             flexDirection: 'column',
             alignItems: 'center',
             gap: 1,

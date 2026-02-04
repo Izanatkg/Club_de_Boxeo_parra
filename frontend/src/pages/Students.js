@@ -183,7 +183,7 @@ function Students() {
               gutterBottom
               sx={{ 
                 fontWeight: 'bold',
-                color: '#1976d2',
+                color: '#d4af37',
                 fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
                 textAlign: { xs: 'center', sm: 'left' }
               }}
@@ -221,11 +221,11 @@ function Students() {
           sx={{ 
             p: isMobile ? 2 : 3, 
             borderRadius: '12px', 
-            backgroundColor: '#f8f9fa',
-            border: '1px solid rgba(0, 0, 0, 0.08)'
+            backgroundColor: '#1a1a1a',
+            border: '1px solid rgba(212, 175, 55, 0.2)'
           }}
         >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'medium', color: '#455a64', textAlign: { xs: 'center', sm: 'left' } }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 'medium', color: '#ffffff', textAlign: { xs: 'center', sm: 'left' } }}>
             Filtros de búsqueda
           </Typography>
           <Grid container spacing={isMobile ? 2 : 3}>
@@ -241,9 +241,10 @@ function Students() {
                 InputProps={{
                   sx: { 
                     borderRadius: '8px',
-                    backgroundColor: '#ffffff',
+                    backgroundColor: '#1a1a1a',
+                    color: '#ffffff',
                     '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'rgba(0, 0, 0, 0.15)'
+                      borderColor: 'rgba(212, 175, 55, 0.3)'
                     }
                   }
                 }}
@@ -259,9 +260,10 @@ function Students() {
                   label="Estado"
                   sx={{ 
                     borderRadius: '8px',
-                    backgroundColor: '#ffffff',
+                    backgroundColor: '#1a1a1a',
+                    color: '#ffffff',
                     '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'rgba(0, 0, 0, 0.15)'
+                      borderColor: 'rgba(212, 175, 55, 0.3)'
                     }
                   }}
                 >
@@ -282,9 +284,10 @@ function Students() {
                     label="Gimnasio"
                     sx={{ 
                       borderRadius: '8px',
-                      backgroundColor: '#ffffff',
+                      backgroundColor: '#1a1a1a',
+                      color: '#ffffff',
                       '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'rgba(0, 0, 0, 0.15)'
+                        borderColor: 'rgba(212, 175, 55, 0.3)'
                       }
                     }}
                   >
@@ -308,13 +311,13 @@ function Students() {
         getRowClassName={(row) => isExpired(row.nextPaymentDate) ? 'expired-row' : ''}
         sx={{
           '& .expired-row': {
-            backgroundColor: '#ffebee',
+            backgroundColor: 'rgba(220, 38, 38, 0.1)',
             '&:hover': {
-              backgroundColor: '#ffcdd2',
+              backgroundColor: 'rgba(220, 38, 38, 0.2)',
             },
           },
           '& .expired-row td': {
-            color: '#d32f2f',
+            color: '#dc2626',
             fontWeight: 'bold',
           },
         }}
