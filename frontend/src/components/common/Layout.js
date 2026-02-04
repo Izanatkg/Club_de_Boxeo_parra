@@ -8,7 +8,7 @@ function Layout({ children }) {
   return (
     <Box sx={{ 
       minHeight: '100vh', 
-      backgroundColor: '#ffffff',
+      backgroundColor: '#000000',
       overflow: 'hidden',
       position: 'relative',
       '&::before': {
@@ -18,7 +18,7 @@ function Layout({ children }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, rgba(220, 38, 38, 0.02) 100%)',
+        background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(220, 38, 38, 0.05) 100%)',
         pointerEvents: 'none',
       }
     }}>

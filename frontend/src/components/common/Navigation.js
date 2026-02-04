@@ -148,7 +148,7 @@ function Navigation() {
                     py: 2,
                     borderLeft: location.pathname === page.path ? '4px solid #d4af37' : '4px solid transparent',
                     backgroundColor: location.pathname === page.path ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                    color: location.pathname === page.path ? '#000000' : '#374151',
+                    color: location.pathname === page.path ? '#d4af37' : '#ffffff',
                     '&:hover': {
                       backgroundColor: 'rgba(212, 175, 55, 0.05)',
                     }
@@ -160,7 +160,7 @@ function Navigation() {
                       alignItems: 'center', 
                       justifyContent: 'center',
                       width: '40px',
-                      color: location.pathname === page.path ? '#d4af37' : '#6b7280'
+                      color: location.pathname === page.path ? '#d4af37' : '#d4af37'
                     }}>
                       {page.icon}
                     </Box>
@@ -322,7 +322,7 @@ function Navigation() {
                 <Typography 
                   textAlign="center" 
                   sx={{ 
-                    color: '#dc2626',
+                    color: '#d4af37',
                     fontWeight: 600
                   }}
                 >

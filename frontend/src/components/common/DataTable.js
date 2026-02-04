@@ -212,7 +212,7 @@ function DataTable({ rows = [], columns, loading, onDelete, onEdit, getRowClassN
                                   sx={{ 
                                     fontWeight: 'medium',
                                     fontSize: '0.85rem',
-                                    color: '#333',
+                                    color: '#ffffff',
                                     lineHeight: 1.3
                                   }}
                                 >

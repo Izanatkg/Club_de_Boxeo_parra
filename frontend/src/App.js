@@ -31,12 +31,12 @@ const theme = createTheme({
       contrastText: '#ffffff', // Texto blanco sobre rojo
     },
     background: {
-      default: '#ffffff', // Blanco puro
-      paper: '#fafafa', // Blanco ligeramente gris
+      default: '#000000', // Negro puro
+      paper: '#1a1a1a', // Negro ligeramente más claro
     },
     text: {
-      primary: '#000000', // Negro puro
-      secondary: '#374151', // Gris oscuro
+      primary: '#ffffff', // Blanco puro
+      secondary: '#d4af37', // Dorado para texto secundario
     },
     error: {
       main: '#dc2626', // Rojo para errores
@@ -119,7 +119,7 @@ const theme = createTheme({
         sm: '0.9rem',
         md: '1rem',
       },
-      color: '#374151',
+      color: '#ffffff',
     },
     body2: {
       fontSize: {
@@ -127,7 +127,7 @@ const theme = createTheme({
         sm: '0.85rem',
         md: '0.875rem',
       },
-      color: '#6b7280',
+      color: '#d4af37',
     },
   },
   breakpoints: {
@@ -264,7 +264,7 @@ const theme = createTheme({
               sm: '0.9rem',
               md: '1rem',
             },
-            color: '#000000',
+            color: '#ffffff',
           },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
@@ -280,7 +280,7 @@ const theme = createTheme({
             },
           },
           '& .MuiInputLabel-root': {
-            color: '#6b7280',
+            color: '#d4af37',
             fontWeight: 500,
             '&.Mui-focused': {
               color: '#d4af37',
@@ -301,6 +301,9 @@ const theme = createTheme({
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: '#d4af37',
             borderWidth: 2,
+          },
+          '& .MuiSelect-select': {
+            color: '#ffffff',
           },
         },
       },
