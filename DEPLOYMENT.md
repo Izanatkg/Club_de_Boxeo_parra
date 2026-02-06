@@ -7,10 +7,10 @@ Esta guía explica cómo desplegar la aplicación del Club de Boxeo en Render.co
 ## 🏗️ Arquitectura del Despliegue
 
 ```
-Frontend (React) → Backend (Node.js) → Database (MongoDB Atlas)
+Frontend (React) + Backend (Node.js) → Database (MongoDB Atlas)
        ↓               ↓                    ↓
-   Vercel         Render.com           MongoDB Atlas
-   (Opcional)    (Principal)          (Producción)
+   Render.com (Completo)           MongoDB Atlas
+   (Principal)                    (Producción)
 ```
 
 ## 🛠️ Configuración Previa
@@ -194,16 +194,17 @@ mongoose.connect(process.env.MONGO_URI, {
    - Más RAM y CPU
    - Build más rápidos
 
-2. **Frontend en Vercel**
-   - Mejor performance para archivos estáticos
-   - CDN global
-   - Despliegue instantáneo
+2. **Frontend y Backend en Render**
+   - Mejor rendimiento integrado
+   - Una sola plataforma para gestionar
+   - Sin configuración CORS compleja
 
 3. **Base de Datos Mejorada**
    - MongoDB Atlas M10 ($25/mes)
    - Mejor rendimiento
    - Backups automáticos
 
+## Checklist Final de Despliegue
 ## 🎯 Checklist Final de Despliegue
 
 - [ ] Repositorio conectado a Render
