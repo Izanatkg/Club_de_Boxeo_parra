@@ -14,7 +14,7 @@ jobs:
     - name: Keep Render App Alive
       run: |
         # URL correcta de tu app en Render
-        RENDER_URL="https://club-de-boxeo-parra.onrender.com/api/health"
+        RENDER_URL="https://club-de-boxeo-parra-a1ag.onrender.com/api/health"
         
         echo "Pinging $RENDER_URL to keep app alive..."
         
