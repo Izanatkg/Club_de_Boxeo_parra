@@ -29,9 +29,15 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { es } from 'date-fns/locale';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import ClearIcon from '@mui/icons-material/Clear';
 import { getSales, updateSale, deleteSale } from '../features/sales/salesSlice';
 import { getUsers } from '../features/users/userSlice';
 import { exportToExcel, formatDate, formatCurrency } from '../utils/excelExport';
@@ -53,10 +59,18 @@ function Sales() {
     notes: ''
   });
   
+  // Estados para el filtrado por fechas
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [showDateFilter, setShowDateFilter] = useState(false);
+  
   // Función para exportar a Excel
   const handleExportToExcel = () => {
+    // Filtrar ventas por fechas si hay filtros aplicados
+    const filteredSales = getFilteredSales();
+    
     // Preparar datos para exportación
-    const dataToExport = sales.map(sale => {
+    const dataToExport = filteredSales.map(sale => {
       // Calcular el precio unitario si no está disponible directamente
       const unitPrice = sale.unitPrice || (sale.total && sale.quantity ? sale.total / sale.quantity : sale.product?.price || 0);
       
@@ -100,7 +114,35 @@ function Sales() {
       toast.error('Error al exportar el reporte');
     }
   };
-  
+
+  // Función para filtrar ventas por fechas
+  const getFilteredSales = () => {
+    if (!startDate && !endDate) {
+      return sales;
+    }
+    
+    return sales.filter(sale => {
+      const saleDate = new Date(sale.date);
+      const start = startDate ? new Date(startDate.setHours(0, 0, 0, 0)) : null;
+      const end = endDate ? new Date(endDate.setHours(23, 59, 59, 999)) : null;
+      
+      if (start && end) {
+        return saleDate >= start && saleDate <= end;
+      } else if (start) {
+        return saleDate >= start;
+      } else if (end) {
+        return saleDate <= end;
+      }
+      return true;
+    });
+  };
+
+  // Función para limpiar filtros de fecha
+  const clearDateFilter = () => {
+    setStartDate(null);
+    setEndDate(null);
+  };
+
   // Funciones para manejar la edición de ventas
   const handleOpenEditDialog = (sale) => {
     // Calcular el precio unitario
@@ -208,45 +250,177 @@ function Sales() {
 
   // Calcular ventas del día
   const getDailySales = () => {
+    const filteredSales = getFilteredSales();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    return sales
+    return filteredSales
       .filter(sale => new Date(sale.date) >= today)
       .reduce((total, sale) => total + sale.total, 0);
   };
 
   // Calcular ventas del mes
   const getMonthlySales = () => {
+    const filteredSales = getFilteredSales();
     const firstDayOfMonth = new Date();
     firstDayOfMonth.setDate(1);
     firstDayOfMonth.setHours(0, 0, 0, 0);
     
-    return sales
+    return filteredSales
       .filter(sale => new Date(sale.date) >= firstDayOfMonth)
       .reduce((total, sale) => total + sale.total, 0);
   };
 
   return (
-    <Layout>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
+      <Layout>
       <Box sx={{ mb: 4 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} sm={6}>
-            <Typography 
-              variant="h4" 
-              component="h1" 
-              gutterBottom
-              sx={{ 
-                fontWeight: 'bold',
-                color: '#dc2626',
-                fontSize: { xs: '1.8rem', sm: '2.2rem' }
-              }}
-            >
-              Ventas
-            </Typography>
+            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+              <Typography 
+                variant="h4" 
+                component="h1" 
+                gutterBottom
+                sx={{ 
+                  fontWeight: 'bold',
+                  color: '#dc2626',
+                  fontSize: { xs: '1.8rem', sm: '2.2rem' },
+                  mb: 0
+                }}
+              >
+                Ventas
+              </Typography>
+              <Button
+                variant="outlined"
+                startIcon={<DateRangeIcon />}
+                onClick={() => setShowDateFilter(!showDateFilter)}
+                sx={{ 
+                  borderRadius: '8px',
+                  borderColor: '#da2525',
+                  color: '#da2525',
+                  '&:hover': {
+                    borderColor: '#b82020',
+                    backgroundColor: 'rgba(218, 37, 37, 0.04)'
+                  }
+                }}
+              >
+                {showDateFilter ? 'Ocultar Filtro' : 'Filtrar por Fecha'}
+              </Button>
+              {(startDate || endDate) && (
+                <Button
+                  variant="text"
+                  startIcon={<ClearIcon />}
+                  onClick={clearDateFilter}
+                  sx={{ 
+                    color: '#da2525',
+                    '&:hover': {
+                      backgroundColor: 'rgba(218, 37, 37, 0.04)'
+                    }
+                  }}
+                >
+                  Limpiar
+                </Button>
+              )}
+            </Box>
           </Grid>
         </Grid>
       </Box>
+
+      {/* Filtro de Fechas */}
+      {showDateFilter && (
+        <Card sx={{ borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', mb: 3 }}>
+          <CardContent sx={{ p: 3 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2, color: '#da2525' }}>
+              Filtrar por Rango de Fechas
+            </Typography>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={12} sm={5}>
+                <DatePicker
+                  label="Fecha Inicio"
+                  value={startDate}
+                  onChange={setStartDate}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      fullWidth 
+                      size="small"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: 'rgba(218, 37, 37, 0.3)',
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#da2525',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#da2525',
+                          },
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <DatePicker
+                  label="Fecha Fin"
+                  value={endDate}
+                  onChange={setEndDate}
+                  renderInput={(params) => (
+                    <TextField 
+                      {...params} 
+                      fullWidth 
+                      size="small"
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: 'rgba(218, 37, 37, 0.3)',
+                          },
+                          '&:hover fieldset': {
+                            borderColor: '#da2525',
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#da2525',
+                          },
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <Button
+                  variant="text"
+                  onClick={clearDateFilter}
+                  startIcon={<ClearIcon />}
+                  fullWidth
+                  sx={{ 
+                    color: '#da2525',
+                    '&:hover': {
+                      backgroundColor: 'rgba(218, 37, 37, 0.04)'
+                    }
+                  }}
+                >
+                  Limpiar
+                </Button>
+              </Grid>
+            </Grid>
+            {(startDate || endDate) && (
+              <Box sx={{ mt: 2, p: 2, backgroundColor: 'rgba(218, 37, 37, 0.05)', borderRadius: '8px' }}>
+                <Typography variant="body2" color="textSecondary">
+                  {startDate && endDate 
+                    ? `Mostrando ventas del ${startDate.toLocaleDateString()} al ${endDate.toLocaleDateString()}`
+                    : startDate 
+                    ? `Mostrando ventas desde el ${startDate.toLocaleDateString()}`
+                    : `Mostrando ventas hasta el ${endDate.toLocaleDateString()}`
+                  }
+                </Typography>
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {/* Resumen de Ventas */}
@@ -318,14 +492,14 @@ function Sales() {
                           Cargando ventas...
                         </TableCell>
                       </TableRow>
-                    ) : sales.length === 0 ? (
+                    ) : getFilteredSales().length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
                           No hay ventas registradas
                         </TableCell>
                       </TableRow>
                     ) : (
-                      sales.map((sale) => (
+                      getFilteredSales().map((sale) => (
                         <TableRow key={sale._id}>
                           <TableCell>
                             {new Date(sale.date).toLocaleDateString()}
@@ -463,7 +637,8 @@ function Sales() {
           </Button>
         </DialogActions>
       </Dialog>
-    </Layout>
+      </Layout>
+    </LocalizationProvider>
   );
 }
 
